@@ -21,6 +21,13 @@ app.use(cors({ origin: true }));
 const apiRoute = require('./api.route');
 app.use('/api', apiRoute);
 
+// Main page
+app.get('/', (req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html');
+    res.end('<h1>Hello World</h1>');
+});
+
 // PORT
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
