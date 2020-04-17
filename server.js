@@ -1,32 +1,36 @@
 // Development or Production build?
 //const environment = process.env.NODE_ENV || 'development';
 
-// Express Routes
 const express = require('express');
-const app = express();
-//const path = require('path');
-
-// Body-parser
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+const cors = require('cors');
+//const path = require('path');
+const apiRoute = require('./api.route');
+
+// Express
+const app = express();
+
+// Helmet protects from attacks
+app.use(helmet());
+
+// Body-parser sets req.body
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Automatically allow cross-origin requests
-const cors = require('cors');
 app.use(cors({ origin: true }));
 
 // API
-const apiRoute = require('./api.route');
 app.use('/api', apiRoute);
 
 // Main page
-app.get('/', (req, res) => {
+app.use(express.static('frontend'));
+/*app.get('/', (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
     res.end('<h1>Hello World</h1>');
-});
+});*/
 
 // PORT
 const port = process.env.PORT || 3000;
