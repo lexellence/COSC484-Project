@@ -1,4 +1,3 @@
-const constants = require('./frontend/Constants');
 const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
@@ -31,7 +30,7 @@ app.use(express.static('frontend'));
 });*/
 
 // PORT
-const port = process.env.PORT || constants.DEFAULT_PORT;
+const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
     console.log('Connected to port ' + port);
 });

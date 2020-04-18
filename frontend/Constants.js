@@ -4,35 +4,35 @@
 // (if we were using React to build our frontend this could be handled automatically) 
 // This changes apiBaseURL below.
 
-const environment = 'production';
-// const environment = 'development';
+// const environment = 'production';
+const environment = 'development';
 
-const defaultPort = 3000;
 // Where to access the backend, locally or on our hosting site?
 let apiBaseURL = '';
 if (environment === 'development')
-    apiBaseURL = 'http://localhost:' + defaultPort + '/api';
+    apiBaseURL = 'http://localhost:3000/api';
 else
     apiBaseURL = 'https://exerfit.herokuapp.com/api';
 
-module.exports = Object.freeze({
-    // Used in server.js when we are running server locally for testing
-    DEFAULT_PORT: defaultPort,
+// Used in server.js when we are running server locally for testing
 
-    // IMPORTANT: Routes are hard-coded into back-end. Changes here must also be changed there.
-    ROUTE_HOME: '/',
-    ROUTE_VIEW_USERS: '/view-users',
-    ROUTE_CREATE_USER: '/create-user',
-    ROUTE_EDIT_USER: '/edit-user',  // '/:id'
-    ROUTE_PLAY: '/play',
+export const API_BASE_URL = apiBaseURL, ;
+export const API_HOW_IS_TODAY = '/how-is-today', ;
 
-    API_BASE_URL: apiBaseURL,
-    API_HOW_IS_TODAY: '/how-is-today',
+export const API_CREATE_USER = '/create-user', ;        // (userObj)
+export const API_GET_USER_LIST = '/get-user-list', ;
+export const API_GET_USER = '/get-user', ;             // + '/:id'
+export const API_UPDATE_USER = '/update-user', ;       // + '/:id' (userObj)
+export const API_DELETE_USER = '/delete-user';        // + '/:id' 
 
-    API_CREATE_USER: '/create-user',        // (userObj)
-    API_GET_USER_LIST: '/get-user-list',
-    API_GET_USER: '/get-user',             // + '/:id'
-    API_UPDATE_USER: '/update-user',       // + '/:id' (userObj)
-    API_DELETE_USER: '/delete-user'        // + '/:id' 
-});
+/*export {
+    DEFAULT_PORT,
+    API_BASE_URL,
+    API_HOW_IS_TODAY,
+    API_CREATE_USER,
+    API_GET_USER_LIST,
+    API_GET_USER,
+    API_UPDATE_USER,
+    API_DELETE_USER
+};*/
 
