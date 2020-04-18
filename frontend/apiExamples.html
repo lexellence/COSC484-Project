@@ -11,44 +11,30 @@
   <link rel="stylesheet" type="text/css" href="DarkMode.css">
   <link rel="icon" href="EXERFavicon.ico" type="image/x-icon" />
 
+
   <!-- API GET Example -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script lang="javascript" type="text/javascript">
-    //const endpointURL = constants.API_BASE_URL + constants.API_HOW_IS_TODAY;
+    const apiRoot = 'https://exerfit.herokuapp.com/api';
 
     GetDataFromAPI = () => {
-      // var constants = await import('/Constants.js');
-      import('/Constants.js')
-        .then(constants => {
-
-        })
-        .catch(err => {
-
-        });
-
-      // const howIsTodayElement = document.getElementById("howIsToday");
-
-      // document.getElementById('howIsToday').innerHTML = 'some text';
-      //axios.get(endpointURL)
-      // axios.get('http://localhost:3000/api/how-is-today')
-      axios.get('https://exerfit.herokuapp.com/api/how-is-today')
-
+      const howIsTodayElement = document.getElementById("howIsToday");
+      axios.get(apiRoot + '/how-is-today')
         .then(response => {
           // Display to the page what we got from server
-          document.getElementById('howIsToday').innerHTML = response.data;
-          // howIsTodayElement.innerHTML = response.data;
+          howIsTodayElement.innerHTML = response.data;
         })
         .catch(error => {
           // Display to the page that there was an error (or you could handle the error in some other way)
-          document.getElementById('howIsToday').innerHTML = '<GET error>';
-          // howIsTodayElement.innerHTML = '<GET error>';
+          howIsTodayElement.innerHTML = '<GET error>';
         });
     }
   </script>
+
 </head>
 
-<!-- API GET Example: call function after body loads -->
+<!-- API GET Example: call GetDataFromAPI after body loads -->
 
 <body onload="GetDataFromAPI()">
   <div class="theme-switch-wrapper">
@@ -62,8 +48,9 @@
   <script src="DarkMode.js"></script>
   <script lang="javascript" type="text/javascript" src="header.js"></script>
 
-  <!-- API GET Example -->
-  <h1>Hello, today is <span id='howIsToday'></span>.</h1>
+  <!-- API GET Example Content -->
+  <h1>Hello, today is <span id='howIsToday'>&lt;loading&gt;</span>.</h1>
+
 
   <script lang="javascript" type="text/javascript" src="footer.js"></script>
 
