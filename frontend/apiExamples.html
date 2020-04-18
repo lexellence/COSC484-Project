@@ -31,7 +31,9 @@
 
       // document.getElementById('howIsToday').innerHTML = 'some text';
       //axios.get(endpointURL)
-      axios.get('http://localhost:3000/api/how-is-today')
+      // axios.get('http://localhost:3000/api/how-is-today')
+      axios.get('https://exerfit.herokuapp.com/api/how-is-today')
+
         .then(response => {
           // Display to the page what we got from server
           document.getElementById('howIsToday').innerHTML = response.data;
