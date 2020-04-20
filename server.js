@@ -49,7 +49,7 @@ connection.query('CREATE TABLE IF NOT EXISTS user(id INT SIGNED NOT NULL AUTO_IN
                                     + 'password TEXT NOT NULL,'
                                     + 'profile_picture TEXT,'
                                     + 'followed_users JSON, '
-                                    + 'average_rating JSON,'
+                                    + 'work_plans JSON,'
                                     + 'favorites JSON, '
                                     + 'biometric_data JSON)',
                                     function(err, result){
@@ -62,8 +62,7 @@ connection.query('CREATE TABLE IF NOT EXISTS workouts(id INT SIGNED NOT NULL AUT
                                     + 'description TEXT NOT NULL,'
                                     + 'total_favorites INT SIGNED,'
                                     + 'total_views BIGINT SIGNED, '
-                                    + 'workplans JSON,'
-                                    + 'favorites JSON)',
+                                    + 'average_rating JSON)'
                                     function(err, result){
                                         if(err) throw err
                                         console.log("[mysql] Workout table query successful")
