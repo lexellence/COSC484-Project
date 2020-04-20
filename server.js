@@ -62,7 +62,7 @@ connection.query('CREATE TABLE IF NOT EXISTS workouts(id INT SIGNED NOT NULL AUT
                                     + 'description TEXT NOT NULL,'
                                     + 'total_favorites INT SIGNED,'
                                     + 'total_views BIGINT SIGNED, '
-                                    + 'average_rating JSON)'
+                                    + 'average_rating JSON)',
                                     function(err, result){
                                         if(err) throw err
                                         console.log("[mysql] Workout table query successful")
