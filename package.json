@@ -15,7 +15,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^3.22.0",
-    "http-server": "^0.12.1"
+    "http-server": "^0.12.1",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
