@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create an Account</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="signup.css">
+
+</head>
+<body>
+	<div class="signup">
+	<h1> Sign up</h1>
+	<h4>Don't worry, it's quick</h4>
+	<form>
+	 
+                   <td><label for=name>First Name </label></td>
+                   <td><input id=firstname name=firstname type=text required /><br></td>
+               
+                  <td><label for=name>Last Name </label></td> 
+                  <td><input id=lastname name=lastname type=text required  /><br></td> 
+                
+                    <td> <label for = "address">Email Address  </label></td>
+                    <td> <input id=billingaddr name=billingaddr type=text  required/><br></td>
+
+                    <td><label for= Birthday>Birthday</label>
+                    <td><select class="Birthday" id="Day" name = "day" required="">
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                  </select></td>
+                  <select class= "Birthday" name="Month" id="Month" required="">
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+		</select>
+		<select class= "Birthday" name="year" id="year" required>
+		<select name="Year" id="Year"><br>
+			<script type="text/javascript">
+			var year = 1900;
+			var till = 2020;
+			var options = "";
+			for(var y=year; y<=till; y++){
+  			options += "<option>"+ y +"</option>";
+			}
+			document.getElementById("year").innerHTML = options;
+		</script>
+		</select>
+	</select>
+		Male<input checked type="radio"  name="Gender" required="true">
+		Female <input type="radio" name="Gender">
+		Other <input type="radio" name="Gender"><br>
+</td>
+
+	<tr>
+               <td> <label for = "username">Username</label></td>
+               <td> <input type = "text" name = "username" id = "username" required></td>
+            </tr>
+            <br/>
+            
+            <tr>
+                <td><label for = "password">Password</label></td><br>
+                <td><input type="password" name="password" id = "Password" required ></td><br>
+            </tr>
+           
+            
+            <tr>
+               <td> <label for="verif">Verify Password</label></td><br>
+               <td> <input type="password" name="verif" id="Password verify" required></td><br>
+            </tr>
+        </table>
+
+        <button input type="submit" onclick="return validatePassword()" id="submitButoon">Submit</button>
+          
+          </form>   
+      </div>
+      <div class= "signup-help"> 
+      <a href="#"> Already a member? Login</a>
+</div>
+</body>
+</html>
+
