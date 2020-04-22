@@ -2,57 +2,55 @@
 <html>
 
 <head>
-  <title>EXER</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="template.css">
-  <link rel="stylesheet" type="text/css"
-    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="DarkMode.css">
-  <link rel="icon" href="EXERFavicon.ico" type="image/x-icon" />
+	<title>EXER</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="template.css">
+	<link rel="stylesheet" type="text/css"
+		href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="DarkMode.css">
+	<link rel="icon" href="EXERFavicon.ico" type="image/x-icon" />
 
 
-  <!-- API GET Example -->
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<!-- API GET Example -->
+	<script lang="javascript" type="text/javascript">
+		const apiRoot = 'https://exerfit.herokuapp.com/api';
 
-  <script lang="javascript" type="text/javascript">
-    const apiRoot = 'https://exerfit.herokuapp.com/api';
+		async function init() {
+			// Fetch step 1: Get response headers, handle errors
+			let response = await fetch(apiRoot + '/how-is-today');
+			if (response.ok) {
+				alert("Error: GET " + apiRoot + '/how-is-today');
+				return;
+			}
 
-    GetDataFromAPI = () => {
-      const howIsTodayElement = document.getElementById("howIsToday");
-      axios.get(apiRoot + '/how-is-today')
-        .then(response => {
-          // Display to the page what we got from server
-          howIsTodayElement.innerHTML = response.data;
-        })
-        .catch(error => {
-          // Display to the page that there was an error (or you could handle the error in some other way)
-          howIsTodayElement.innerHTML = '<GET error>';
-        });
-    }
-  </script>
+			// Fetch step 2: Get data
+			let data = await response.text();
+			document.getElementById("howIsToday").innerHTML = data;
+		}
+	</script>
 
 </head>
 
 <!-- API GET Example: call GetDataFromAPI after body loads -->
 
-<body onload="GetDataFromAPI()">
-  <div class="theme-switch-wrapper">
-    <label class="theme-switch" for="checkbox">
-      <input type="checkbox" id="checkbox" />
-      <div class="slider round"></div>
-    </label>
-    <em>Dark Mode</em>
-  </div>
+<body onload="init()">
+	<div class="theme-switch-wrapper">
+		<label class="theme-switch" for="checkbox">
+			<input type="checkbox" id="checkbox" />
+			<div class="slider round"></div>
+		</label>
+		<em>Dark Mode</em>
+	</div>
 
-  <script src="DarkMode.js"></script>
-  <script lang="javascript" type="text/javascript" src="header.js"></script>
+	<script src="DarkMode.js"></script>
+	<script lang="javascript" type="text/javascript" src="header.js"></script>
 
-  <!-- API GET Example Content -->
-  <h1>Hello, today is <span id='howIsToday'>&lt;loading&gt;</span>.</h1>
+	<!-- API GET Example Content -->
+	<h1>Hello, today is <span id='howIsToday'></span>.</h1>
 
 
-  <script lang="javascript" type="text/javascript" src="footer.js"></script>
+	<script lang="javascript" type="text/javascript" src="footer.js"></script>
 
 </body>
 
