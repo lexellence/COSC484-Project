@@ -12,8 +12,9 @@ connection.connect((err) => {
 
 // Make sure SQL tables exist
 connection.query('CREATE TABLE IF NOT EXISTS user(id INT SIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,'
-	+ 'name VARCHAR(50) NOT NULL,'
-	+ 'password TEXT NOT NULL,'
+	+ 'firstname VARCHAR(50) NOT NULL,'
+	+ 'lastname VARCHAR(50) NOT NULL,'
+	+ 'password VARCHAR(50) NOT NULL,'
 	+ 'profile_picture TEXT,'
 	+ 'followed_users JSON, '
 	+ 'work_plans JSON,'

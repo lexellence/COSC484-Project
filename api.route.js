@@ -55,11 +55,9 @@ const workout2 = {
 };
 const workouts = [workout1, workout2];
 
-
-// User list API
-// router.route('/create-user').post((req, res) => {
-//     res.sendStatus(201); // 201 = created
-// });
+router.route('/register').post((req, res) => {
+	res.sendStatus(201); // 201 = created
+});
 router.route('/get-user-profile-list').get((req, res) => {
 	res.status(200).json(userProfiles);   // 200 = OK
 });
