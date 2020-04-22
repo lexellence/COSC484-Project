@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const dbConnection = require('./db');
 
 // Test API
 router.route('/how-is-today').get((req, res, next) => {
