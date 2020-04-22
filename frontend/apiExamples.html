@@ -19,7 +19,7 @@
 		async function init() {
 			// Fetch step 1: Get response headers, handle errors
 			let response = await fetch(apiRoot + '/how-is-today');
-			if (response.ok) {
+			if (!response.ok) {
 				alert("Error: GET " + apiRoot + '/how-is-today');
 				return;
 			}
