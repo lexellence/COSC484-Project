@@ -8,8 +8,6 @@ connection.connect((err) => {
 	if (err)
 		throw err;
 	console.log("[mysql] Connected successfully");
-	connection.end();
-	console.log("[mysql] Disconnected");
 });
 
 // Make sure SQL tables exist
