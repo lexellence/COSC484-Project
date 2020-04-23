@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './DarkMode.css'
 
 import postList from './posts/postList';
 
@@ -8,6 +9,8 @@ class App extends Component {
   render() {
   return (//from template.html
     <div className="App">
+
+      <div className="favicon"><link rel="icon" href="EXERFavicon.ico" type="image/x-icon" /></div>
       
       <div className="theme-switch-wrapper">
         <label className="theme-switch" for="checkbox">
