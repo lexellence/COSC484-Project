@@ -1,10 +1,46 @@
 const express = require('express');
+const mysql = require('mysql');
 const router = express.Router();
 const dbConnection = require('./db');
 
 // Test API
 router.route('/how-is-today').get((req, res, next) => {
 	res.send('great');
+});
+
+//MySQL connection
+/*var con = mysql.createConnection({
+    host: "host",
+    user: "user",
+    password: "password",
+    database: "database"
+  });
+*/
+
+//Endpoints for front end
+router.route('/add_workout').post((req, res) => {
+	var workoutObject = req.body;
+	/* Example workout structure
+		var workout = {
+			title: "title of workout",
+			desc: "basic description of workout",
+			url: "url link to video of workout"
+		}	
+	*/
+	res.status(200);
+	return;
+});
+
+router.route('/workouts').get((req, res) => {
+	res.send('Workouts Page');
+	res.status(200);
+	return;
+});
+
+router.route('/workouts/trending').get((req, res) => {
+	res.send('Trending Workouts');
+	res.status(200);
+	return;
 });
 
 // Fake data for stubs
