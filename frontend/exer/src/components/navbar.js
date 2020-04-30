@@ -1,41 +1,45 @@
-import React from 'react'
-//import logo from '../logo.png';
+import React, { Component } from 'react';
+import logo from '../logo.png';
+import '../dark-mode-v2.css'
 
-function navbar() {
+function Navbar() {
+    const [darkMode, setDarkMode] = React.useState(getInitialMode());
+    React.useEffect(() => {localStorage.setItem('dark', JSON.stringify(darkMode));}, [darkMode]); //Stores user choice Light/Dark mode on cache
+
+    function getInitialMode() {
+        const isReturningUser = "dark" in localStorage;
+        const savedMode = JSON.parse(localStorage.getItem('dark'));
+        const userPrefersDark = getPreferredColorScheme();
+
+        if(isReturningUser){
+            return savedMode;
+        } else if (userPrefersDark){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getPreferredColorScheme(){ //Checks for user's system preference on light/dark mode
+        if(!window.matchMedia) return; //No default preference
+
+        return window.matchMedia("(prefers-color-scheme): dark").matches;
+    }
+    
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-dark">
-        
-        {/*  
-        <a className="navbar-brand" href="#">
-            <img src={logo} alt="EXER-HOME"/>
-        </a> */}
-
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-                <a className="nav-link text-white" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link text-white" href="#">About</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link text-white" href="#">Contact</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link text-white" href="#">Register</a>
-            </li>
-            </ul>
-            <form className="form-inline my-2 my-lg-0">
-            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+        <div className={darkMode ? "dark-mode" : "light-mode"}>
+            <nav>
+                <div className='toggle-container'>
+                    <span style={{color: darkMode ? "grey" : "yellow"}}>☀︎</span>
+                    <span className="toggle">
+                        <input checked={darkMode} onChange={() => setDarkMode(prevMode => !prevMode)} id="checkbox" className="checkbox" type="checkbox"/>
+                        <label htmlFor="checkbox"/>
+                    </span>
+                    <span style={{color: darkMode ? "slateblue" : "grey"}}>☽</span>
+                </div>
+            </nav>
         </div>
-        </nav>
     )
 }
 
-export default navbar;
+export default Navbar;
