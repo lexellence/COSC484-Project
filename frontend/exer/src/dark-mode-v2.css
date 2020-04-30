@@ -6,6 +6,7 @@
   
 .light-mode nav {
     transition: background-color 0.25s ease-out;
+    box-shadow: 0 6px 2px -2px rgba(0,0,0,.2);
 }
 
 .light-mode body {

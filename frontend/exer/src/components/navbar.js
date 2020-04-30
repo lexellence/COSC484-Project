@@ -4,7 +4,8 @@ import '../dark-mode-v2.css'
 //import 'bootstrap/dist/css/bootstrap.css';
 import * as ReactBootstrap from 'react-bootstrap';
 
-function Nav() {
+function Nav(props) {
+    const isLoggedIn = props.isLoggedIn;
     const [darkMode, setDarkMode] = React.useState(getInitialMode());
     React.useEffect(() => {localStorage.setItem('dark', JSON.stringify(darkMode));}, [darkMode]); //Stores user choice Light/Dark mode on cache
 
@@ -27,20 +28,54 @@ function Nav() {
         return window.matchMedia("(prefers-color-scheme): dark").matches;
     }
 
-    return (
+    if(isLoggedIn){  //Navbar shown to user if they are logged in (Gives see to see Profile and Sign out)
+        return (
+            <div className={darkMode ? "dark-mode" : "light-mode"}>
+                <ReactBootstrap.Navbar expand="sm" sticky="top">
+                    <ReactBootstrap.Navbar.Brand href="/feed"><img src={logo} style={{height: 70, width: 70}} alt="logo"/></ReactBootstrap.Navbar.Brand>
+                    <ReactBootstrap.Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <ReactBootstrap.Navbar.Collapse id="basic-navbar-nav">
+                        <ReactBootstrap.Nav className="mr-auto">
+                        <ReactBootstrap.Nav.Link href="/feed">Feed</ReactBootstrap.Nav.Link>
+                        <ReactBootstrap.Nav.Link href="/trending">Trending</ReactBootstrap.Nav.Link>
+                        <ReactBootstrap.Nav.Link href="/about">About</ReactBootstrap.Nav.Link>
+                        <ReactBootstrap.Nav.Link href="/contact">Contact</ReactBootstrap.Nav.Link>
+                        <ReactBootstrap.NavDropdown title="Account" id="basic-nav-dropdown">
+                            <ReactBootstrap.NavDropdown.Item href="/profile">Profile</ReactBootstrap.NavDropdown.Item>
+                            <ReactBootstrap.NavDropdown.Item href="/logout">Logout</ReactBootstrap.NavDropdown.Item>
+                        </ReactBootstrap.NavDropdown>
+                        <div className='toggle-container'>
+                            <span style={{color: darkMode ? "white" : "yellow"}}>☀︎</span>
+                            <span className="toggle">
+                                <input checked={darkMode} onChange={() => setDarkMode(prevMode => !prevMode)} id="checkbox" className="checkbox" type="checkbox"/>
+                                <label htmlFor="checkbox"/>
+                            </span>
+                            <span style={{color: darkMode ? "slateblue" : "white"}}>☾</span>
+                        </div>
+                        </ReactBootstrap.Nav>
+                        <ReactBootstrap.Form inline>
+                        <ReactBootstrap.FormControl type="text" placeholder="#Workout" className="mr-sm-2" />
+                        <ReactBootstrap.Button variant="outline-success">Search</ReactBootstrap.Button>
+                        </ReactBootstrap.Form>
+                    </ReactBootstrap.Navbar.Collapse>
+                </ReactBootstrap.Navbar>
+            </div>
+        )
+    }
+
+    return ( //Navbar variation shown to user if they are not logged in (Gives option to Login/Register)
         <div className={darkMode ? "dark-mode" : "light-mode"}>
-            <ReactBootstrap.Navbar expand="md" sticky="top">
-                <ReactBootstrap.Navbar.Brand href="/home"><img src={logo} style={{height: 70, width: 70}}/></ReactBootstrap.Navbar.Brand>
+            <ReactBootstrap.Navbar expand="sm" sticky="top">
+                <ReactBootstrap.Navbar.Brand href="/landing"><img src={logo} style={{height: 70, width: 70}} alt="logo"/></ReactBootstrap.Navbar.Brand>
                 <ReactBootstrap.Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <ReactBootstrap.Navbar.Collapse id="basic-navbar-nav">
                     <ReactBootstrap.Nav className="mr-auto">
+                    <ReactBootstrap.Nav.Link href="/landing">Home</ReactBootstrap.Nav.Link>
                     <ReactBootstrap.Nav.Link href="/about">About</ReactBootstrap.Nav.Link>
                     <ReactBootstrap.Nav.Link href="/contact">Contact</ReactBootstrap.Nav.Link>
                     <ReactBootstrap.NavDropdown title="Account" id="basic-nav-dropdown">
                         <ReactBootstrap.NavDropdown.Item href="/login">Login</ReactBootstrap.NavDropdown.Item>
                         <ReactBootstrap.NavDropdown.Item href="/signUp">Sign Up</ReactBootstrap.NavDropdown.Item>
-                        <ReactBootstrap.NavDropdown.Item href="/profile">Profile</ReactBootstrap.NavDropdown.Item>
-                        <ReactBootstrap.NavDropdown.Item href="/logout">Logout</ReactBootstrap.NavDropdown.Item>
                     </ReactBootstrap.NavDropdown>
                     <div className='toggle-container'>
                         <span style={{color: darkMode ? "white" : "yellow"}}>☀︎</span>
@@ -48,13 +83,9 @@ function Nav() {
                             <input checked={darkMode} onChange={() => setDarkMode(prevMode => !prevMode)} id="checkbox" className="checkbox" type="checkbox"/>
                             <label htmlFor="checkbox"/>
                         </span>
-                        <span style={{color: darkMode ? "slateblue" : "white"}}>☽</span>
+                        <span style={{color: darkMode ? "slateblue" : "white"}}>☾</span>
                     </div>
                     </ReactBootstrap.Nav>
-                    <ReactBootstrap.Form inline>
-                    <ReactBootstrap.FormControl type="text" placeholder="#Workout" className="mr-sm-2" />
-                    <ReactBootstrap.Button variant="outline-success">Search</ReactBootstrap.Button>
-                    </ReactBootstrap.Form>
                 </ReactBootstrap.Navbar.Collapse>
             </ReactBootstrap.Navbar>
         </div>

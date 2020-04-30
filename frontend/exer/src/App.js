@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Nav from './components/Navbar.js';
+import Landing from './components/Landing.js'
 import About from './components/About.js';
 import Contact from './components/Contact.js';
 import Favorites from './components/Favorites.js';
@@ -24,6 +25,9 @@ class App extends Component {
         <div>
           <Nav />
           <Switch>
+          <Route path="/landing" component={Landing}>
+              <Landing />
+            </Route>
             <Route path="/about" component={About}>
               <About />
             </Route>
