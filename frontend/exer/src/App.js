@@ -1,29 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import './DarkMode.css'
+import './dark-mode-v2.css'
+import 'bootstrap/dist/css/bootstrap.css';
 
 import postList from './posts/postList';
 
-class App extends Component {
-  render() {
-  return (//from template.html
-    <div className="App">
+function App() {
+  const [darkMode, setDarkMode] = React.useState(getInitialMode());
+  React.useEffect(() => {localStorage.setItem('dark', JSON.stringify(darkMode));}, [darkMode]); //Stores user choice Light/Dark mode on cache
 
-      <div className="favicon"><link rel="icon" href="EXERFavicon.ico" type="image/x-icon" /></div>
-      
-      <div className="theme-switch-wrapper">
-        <label className="theme-switch" for="checkbox">
-        <input type="checkbox" id="checkbox" />
-        <div className="slider round"></div>
-        </label>
-        <em>Dark Mode</em>
-      </div>
+  function getInitialMode() {
+    const isReturningUser = "dark" in localStorage;
+    const savedMode = JSON.parse(localStorage.getItem('dark'));
+    const userPrefersDark = getPreferredColorScheme();
 
-      <div className="headerScript">
-        <script src="DarkMode.js"></script>
-        <script lang="javascript" type="text/javascript" src="header.js"></script>
-      </div>
+    if(isReturningUser){
+      return savedMode;
+    } else if (userPrefersDark){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function getPreferredColorScheme(){ //Checks for user's system preference on light/dark mode
+    if(!window.matchMedia) return; //No default preference
+
+    return window.matchMedia("(prefers-color-scheme): dark").matches;
+  }
+
+  return (
+    <div className={darkMode ? "dark-mode" : "light-mode"}>
+      <nav>
+        <div className='toggle-container'>
+          <span style={{color: darkMode ? "grey" : "yellow"}}>☀︎</span>
+          <span className="toggle">
+            <input checked={darkMode} onChange={() => setDarkMode(prevMode => !prevMode)} id="checkbox" className="checkbox" type="checkbox"/>
+            <label htmlFor="checkbox"/>
+          </span>
+          <span style={{color: darkMode ? "slateblue" : "grey"}}>☽</span>
+        </div>
+      </nav>
     
       <div className="imgbox">
         <img className="center-fit" src="homepageGraphic.jpg" alt="EXER Homepage Collage Graphic"/>
@@ -35,6 +51,6 @@ class App extends Component {
 
     </div>
   );
-}//end render()
-}//end component()
+}
+
 export default App;
