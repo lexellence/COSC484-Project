@@ -3,7 +3,6 @@ import Nav from './components/Navbar.js';
 import Landing from './components/Landing.js'
 import About from './components/About.js';
 import Contact from './components/Contact.js';
-import Favorites from './components/Favorites.js';
 import Profile from './components/Profile.js';
 import Trending from './components/Trending.js';
 import Login from './components/Login.js';
@@ -37,9 +36,6 @@ class App extends Component {
             <Route path="/profile" component={Profile}>
               <Profile />
             </Route>
-            <Route path="/favorites" component={Favorites}>
-              <Favorites />
-            </Route>
             <Route path="/trending" component={Trending}>
               <Trending />
             </Route>
@@ -52,7 +48,6 @@ class App extends Component {
           </Switch>
         </div>
       </Router>
-
     );
   }
 }

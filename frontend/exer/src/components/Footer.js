@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Favorites() {
+function Footer() {
   return (
     <div>
 
     </div>
   );
-};
+}
 
-export default Favorites;
+export default Footer;

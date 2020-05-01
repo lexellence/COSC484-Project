@@ -63,6 +63,14 @@ function SignUp() {
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control type="password" placeholder="Confirm Password" required />
             </Form.Group>
+            <Form.Group>
+            <Form.Label>Upload Profile Picture</Form.Label>
+              <Form.File 
+                id="profile-picture"
+                label="Profile Picture"
+                custom
+              />
+            </Form.Group>
             <Button variant="success" type="submit">Register</Button>
           </Form>
         </Row>
