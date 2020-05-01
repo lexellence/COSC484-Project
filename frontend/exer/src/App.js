@@ -13,7 +13,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import './dark-mode-v2.css'
+import './App.css'
 
 //import postList from './posts/postList';
 
