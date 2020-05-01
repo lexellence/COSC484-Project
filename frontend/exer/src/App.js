@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Nav from './components/navbar.js';
+import Nav from './components/Navbar.js';
 import Landing from './components/Landing.js'
 import About from './components/About.js';
 import Contact from './components/Contact.js';

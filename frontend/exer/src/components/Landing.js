@@ -8,6 +8,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import SignUp from '../components/SignUp';
 import Login from '../components/Login';
 import '../App.css';
+
 function Landing() {
   return (
     <div>
