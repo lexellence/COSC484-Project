@@ -1,7 +1,16 @@
-# COSC484-Project
+# EXER
+> Towson University Spring 2020 COSC 484 Group Project (Group 4)
 
-# to start the backend server:
-git clone https://github.com/lexellence/COSC484-Project.git .
-copy/paste into root directory the .env file provided to you
-npm install
-npm start
+## Website
+_https://exerfit.herokuapp.com_
+
+## Start server
+1. Place .env file provided to you into repository's root directory
+1. From repository's root directory:
+    1. `npm install`
+    1. `npm start`
+
+## Start React app
+1. From `/COSC484-Project/frontend/exer`:
+    1. `npm install`
+    1. `npm start`
