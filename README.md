@@ -9,8 +9,10 @@ _https://exerfit.herokuapp.com_
 1. From repository's root directory:
     1. `npm install`
     1. `npm start`
+1. Server will run on `localhost:5000`
 
 ## Start React app
 1. From `/COSC484-Project/frontend/exer`:
     1. `npm install`
     1. `npm start`
+1. App will run on `localhost:3000`
