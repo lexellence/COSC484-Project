@@ -4,15 +4,10 @@
 ## Website
 _https://exerfit.herokuapp.com_
 
-## Start server
+## Start Server & React app
 1. Place .env file provided to you into repository's root directory
 1. From repository's root directory:
     1. `npm install`
-    1. `npm start`
-1. Server will run on `localhost:5000`
-
-## Start React app
-1. From `/COSC484-Project/frontend/exer`:
-    1. `npm install`
-    1. `npm start`
-1. App will run on `localhost:3000`
+    1. `npm run dev`
+* Server will run on `localhost:5000`
+* App will run on `localhost:3000`
