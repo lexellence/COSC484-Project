@@ -1,53 +1,48 @@
 import React, { Component } from 'react';
 import Nav from './components/Navbar.js';
 import Landing from './components/Landing.js'
-import About from './components/About.js';
-import Contact from './components/Contact.js';
+import Support from './components/Support.js';
 import Profile from './components/Profile.js';
 import Trending from './components/Trending.js';
-import Login from './components/Login.js';
-import SignUp from './components/SignUp.js';
+import Footer from './components/Footer.js';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Redirect
 } from "react-router-dom";
 import './App.css'
-
-//import postList from './posts/postList';
 
 class App extends Component {
   render(){
     return (
-      <Router>
-        <div>
-          <Nav />
-          <Switch>
-          <Route path="/landing" component={Landing}>
-              <Landing />
-            </Route>
-            <Route path="/about" component={About}>
-              <About />
-            </Route>
-            <Route path="/contact" component={Contact}>
-              <Contact />
-            </Route>
-            <Route path="/profile" component={Profile}>
-              <Profile />
-            </Route>
-            <Route path="/trending" component={Trending}>
-              <Trending />
-            </Route>
-            <Route path="/login" component={Login}>
-              <Login />
-            </Route>
-            <Route path="/signup" component={SignUp}>
-              <SignUp />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+      <div>
+        <Router>
+          <Route exact path="/" render={() => (
+            <Redirect to="/Landing"/>
+          )}/>
+          <div>
+            <Nav />
+            <Switch>
+              <Route path="/Landing" component={Landing}>
+                <Landing />
+              </Route>
+              <Route path="/Support" component={Support}>
+                <Support />
+              </Route>
+              <Route path="/Profile" component={Profile}>
+                <Profile />
+              </Route>
+              <Route path="/Trending" component={Trending}>
+                <Trending />
+              </Route>
+            </Switch>
+          </div>
+          <div>
+            <Footer />
+          </div>
+        </Router>
+      </div>
     );
   }
 }

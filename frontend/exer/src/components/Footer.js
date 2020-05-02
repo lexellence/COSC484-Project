@@ -1,5 +1,5 @@
 import React from 'react';
-
+import '../App.css';
 
 function Footer() {
   return (
@@ -8,34 +8,34 @@ function Footer() {
        <div className="row">
                 {/*Column 1*/}
          <div className="col">
-           <h4>EXER</h4>
+           <h4>Menu</h4>
               <ul className="list-unstyled">
                 <a href ="/"> <li>Home</li> </a>
+                <a href ="/"> <li>About</li> </a>
                 <a href ="/"> <li>Account</li> </a>
-                <a href ="/"> <li>Login/Register</li> </a>
               </ul>
          </div>
                 {/*Column 2*/}
          <div className="col">
-           <h4>WHO WE ARE</h4>
+           <h4>Company</h4>
               <ul className="list-unstyled">
               <a href ="/"> <li>Our Team</li> </a>
-              <a href ="/"> <li>Newsletter</li> </a>
-              <a href ="/"> <li>Contact</li> </a>
+              <a href ="/"> <li>Our Mission</li> </a>
+              <a href ="/"> <li>Our Vision</li> </a>
               </ul>
          </div>
                 {/*Column 3*/}
          <div className="col-md-3 col-sm-6">
-           <h4>SUPPORT</h4>
+           <h4>Support</h4>
               <ul className="list-unstyled">
+              <a href ="/"> <li>Contact Support</li> </a>
               <a href ="/"> <li>Terms of Service</li> </a>
-              <a href ="/"> <li>User Agreement</li> </a>
               <a href ="/"> <li>Privacy Policy</li> </a>
               </ul>
          </div>
                 {/*Column 3*/}
           <div className="col-md-3 col-sm-6">
-           <h4>CONNECT</h4>
+           <h4>Connect</h4>
               <ul className="list-unstyled">
               <a href ="/"> <li>Facebook</li> </a>
               <a href ="/"> <li>Twitter</li> </a>
@@ -46,7 +46,7 @@ function Footer() {
          {/*Bottom of Footer*/}
          <div className="footer-bottom">
            <p className="text-xs-center">
-              &copy;{new Date().getFullYear()} EXER 
+              &copy;{new Date().getFullYear()}. All Rights Reserved
            </p>
          </div>
        </div> 

@@ -1,3 +1,4 @@
+/* Dark Mode styling starts*/
 .light-mode {
   background-color: #fff;
   color: #333;
@@ -6,11 +7,6 @@
 
 .light-mode nav {
   transition: background-color 0.25s ease-out;
-  box-shadow: 0 6px 2px -2px rgba(0,0,0,.2);
-}
-
-.light-mode body {
-  color: black;
 }
 
 .dark-mode {
@@ -20,18 +16,27 @@
 }
 
 .dark-mode nav {
-  background-color: #1b2938;
+  background: #1b2938;
 }
 
 .dark-mode body {
   color: white;
+  background-color: #333;
 }
 
 nav {
   width: 100%;
   display: flex;
-  background-color: steelblue;
+  background: linear-gradient(to left, #6363e5, #5cbeda);
   padding: 20px;
+  box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.3);
+  font: bolder;
+  font-size: x-large;
+  font-family: default;
+}
+
+nav a {
+	color: white !important;
 }
 
 .toggle {
@@ -96,6 +101,9 @@ input[type="checkbox"].checkbox + label {
   margin-top: 5px;
 }
 
+/* Dark Mode styling ends */
+
+/* Landing page styling starts */
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
@@ -103,27 +111,12 @@ input[type="checkbox"].checkbox + label {
 	box-sizing: border-box;
 }
 
-body {
-	background: #f6f5f7;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	font-family: 'Montserrat', sans-serif;
-	height: 100vh;
-	margin: -20px 0 50px;
-}
-
 h1 {
 	font-weight: bold;
 	margin: 0;
 }
 
-h2 {
-	text-align: center;
-}
-
-p {
+.landing-form p {
 	font-size: 14px;
 	font-weight: 100;
 	line-height: 20px;
@@ -131,18 +124,18 @@ p {
 	margin: 20px 0 30px;
 }
 
-span {
+.landing-form span {
 	font-size: 12px;
 }
 
-a {
+.landing-form a {
 	color: #333;
 	font-size: 14px;
 	text-decoration: none;
 	margin: 15px 0;
 }
 
-button {
+.landing-form button {
 	border-radius: 20px;
 	border: 1px solid #FF4B2B;
 	background-color: #FF4B2B;
@@ -155,20 +148,20 @@ button {
 	transition: transform 80ms ease-in;
 }
 
-button:active {
+.landing-form button:active {
 	transform: scale(0.95);
 }
 
-button:focus {
+.landing-form button:focus {
 	outline: none;
 }
 
-button.ghost {
+.landing-form button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
 
-form {
+.landing-form {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -178,17 +171,7 @@ form {
 	text-align: center;
 }
 
-input {
-	background-color: #eee;
-	border: none;
-	padding: 12px 15px;
-	margin: 8px 0;
-	width: 100%;
-}
-
-
-
-.form-container {
+.landing-form-container {
 	position: absolute;
 	top: 0;
 	height: 100%;
@@ -201,15 +184,12 @@ input {
 	z-index: 2;
 }
 
-
-
 .sign-up-container {
 	left: 0;
 	width: 50%;
 	opacity: 0;
 	z-index: 1;
 }
-
 
 .overlay-container {
 	position: absolute;
@@ -262,6 +242,55 @@ input {
 	transform: translateX(0);
 }
 
+/* Landing page ends */
 
+/* Footer styling starts */
 
+.main-footer {
+	color: white;
+	background: linear-gradient(to top, #6363e5, #5cbeda);
+	padding-top: 2em;
+	padding-bottom: 3em;
+	position: relative;
+	bottom: 0;
+	width: 100%;
+}
 
+.main-footer a {
+	color: whitesmoke;
+}
+
+.page-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.content-wrap {
+	flex: 1;
+}
+
+/* Footer styling ends */
+
+/* Global styling starts */
+
+body {
+	margin-right: auto;
+	margin-left:  auto;
+}
+
+.input-field {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.container-shadow {
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+				0 10px 10px rgba(0,0,0,0.22);
+}
+
+/* Global styling ends */

@@ -36,7 +36,7 @@ function Profile() {
 function EditProfile(){
     return(
         <div>
-
+        
         </div>
     );
 }
