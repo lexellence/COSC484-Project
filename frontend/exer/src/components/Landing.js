@@ -8,11 +8,15 @@ import Carousel from 'react-bootstrap/Carousel';
 import SignUp from '../components/SignUp';
 import Login from '../components/Login';
 import '../App.css';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function Landing() {
   return (
     <div>
         <Container fluid>
+            <Row>
+            <Col>
             <div className = "container-carousel" id="container-carousel">
             <Carousel>
                 <Carousel.Item>
@@ -36,15 +40,11 @@ function Landing() {
                         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
-                <Carousel.Item>
-                    <img className="d-block w-100" src={FourthSlide} alt="Fourth slide" />
-                    <Carousel.Caption>
-                        <h3>Fourth slide label</h3>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
             </Carousel>
             </div>
+            </Col>
+
+            <Col>
             <div className="container" id="container">
             <div className="form-container sign-up-container">
                 <SignUp />
@@ -67,6 +67,8 @@ function Landing() {
             </div>
         </div>
     </div>
+        </Col>
+        </Row>
         </Container>
     </div>
   );
