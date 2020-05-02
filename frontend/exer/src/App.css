@@ -298,3 +298,9 @@ body {
 }
 
 /* Global styling ends */
+
+/* About.js styling starts */
+.about-subtitle{
+	font-size: 27px;
+}
+/* About.js styling ends */
