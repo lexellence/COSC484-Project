@@ -279,6 +279,10 @@ body {
 	margin-left:  auto;
 }
 
+#container {
+	height: 100%;
+}
+
 .input-field {
 	background-color: #eee;
 	border: none;

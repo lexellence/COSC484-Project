@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "concurrently --kill-others-on-fail \"nodemon server\" \"http-server ./frontend -p 5000\""
+    "server": "nodemon server",
+    "client": "cd ./frontend/exer && npm start",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\"  \"npm run client\""
   },
   "author": "",
   "license": "ISC",
