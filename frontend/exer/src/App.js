@@ -4,6 +4,8 @@ import Row from 'react-bootstrap/Row';
 import Landing from './components/Landing.js'
 import Support from './components/Support.js';
 import Profile from './components/Profile.js';
+import OurTeam from './components/OurTeam.js';
+import OurMission from './components/OurMission.js';
 import Trending from './components/Trending.js';
 import Feed from './components/Feed.js';
 import Footer from './components/Footer.js';
@@ -107,6 +109,12 @@ class App extends Component {
                   <Route path="/Trending" component={Trending}>
                     <Trending />
                   </Route>
+                  <Route path="/OurTeam" component={OurTeam}>
+                    <OurTeam />
+                  </Route>
+                  <Route path="/OurMission" component={OurMission}>
+                    <OurMission />
+                  </Route>
                 </Switch>
               </div>
             </Router>
@@ -133,6 +141,12 @@ class App extends Component {
                   </Route>
                   <Route path="/Trending" component={Trending}>
                     <Trending />
+                  </Route>
+                  <Route path="/OurTeam" component={OurTeam}>
+                    <OurTeam />
+                  </Route>
+                  <Route path="/OurMission" component={OurMission}>
+                    <OurMission />
                   </Route>
                 </Switch>
               </div>

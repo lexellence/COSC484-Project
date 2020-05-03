@@ -21,8 +21,8 @@ class Footer extends Component {
           <div className="col">
             <h4>Company</h4>
                 <ul className="list-unstyled">
-                <a href="/"> <li>Our Team</li> </a>
-                <a href="/"> <li>Our Mission</li> </a>
+                <a href="/OurTeam"> <li>Our Team</li> </a>
+                <a href="/OurMission"> <li>Our Mission</li> </a>
                 <a href="/"> <li>Our Vision</li> </a>
                 </ul>
           </div>
