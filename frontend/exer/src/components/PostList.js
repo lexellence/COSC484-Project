@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
+import postOneExample from '../assets/postOneExample.jpg';
+import postTwoExample from '../assets/postTwoExample.jpg';
 
 class PostList extends Component {
   constructor(props) {
@@ -35,9 +37,10 @@ class PostList extends Component {
         }
         {errorMessage ? <Alert variant="danger"><p>{errorMessage}</p></Alert> : null}
 
-        <Post nickname="Chris" avatar= {example1} caption="I wish I could go outside!" image= {example1}/>
-        <Post nickname="Not Chris" avatar= {example2} caption="I wish I was Chris" image= {example2}/>
+        <Post nickname="Chris" avatar= {postOneExample} caption="I wish I could go outside!" image= {postOneExample}/>
+         <Post nickname="Not Chris" avatar= {postTwoExample} caption="I wish I was Chris" image= {postTwoExample}/>
 
+      
         {/* more posts */}
         </section>
       </div>
