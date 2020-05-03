@@ -32,14 +32,12 @@ router.route('/add_workout').post((req, res) => {
 });
 
 router.route('/workouts').get((req, res) => {
-	res.send('Workouts Page');
-	res.status(200);
+	res.status(200).send('Workouts Page');
 	return;
 });
 
 router.route('/workouts/trending').get((req, res) => {
-	res.send('Trending Workouts');
-	res.status(200);
+	res.status(200).send('Trending Workouts');
 	return;
 });
 
