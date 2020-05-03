@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import '../App.css'
 
 function Nav(props) {
-    const isLoggedIn = props.isLoggedIn;
+    const loggedIn = props.loggedIn;
     const [darkMode, setDarkMode] = React.useState(getInitialMode());
     React.useEffect(() => {localStorage.setItem('dark', JSON.stringify(darkMode));}, [darkMode]); //Stores user's Light/Dark mode choice on cache
 
@@ -28,7 +28,7 @@ function Nav(props) {
         return window.matchMedia("(prefers-color-scheme): dark").matches;
     }
 
-    if(isLoggedIn){ //Navbar shown to user if they are logged in (Gives see to see Profile and Sign out)
+    if(loggedIn){ //Navbar shown to user if they are logged in (Gives see to see Profile and Sign out)
         return (
             <div className={darkMode ? "dark-mode" : "light-mode"}>
                 <ReactBootstrap.Navbar className="sticky-top" expand="sm" sticky="top">

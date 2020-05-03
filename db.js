@@ -22,8 +22,9 @@ connection.query('CREATE TABLE IF NOT EXISTS user(id INT SIGNED NOT NULL AUTO_IN
 	+ 'biometric_data JSON)',
 	function (err, result) {
 		if (err) throw err;
-		console.log("[mysql] User table query successful");
+		console.log("[mysql] Users table query successful");
 	});
+
 connection.query('CREATE TABLE IF NOT EXISTS workouts(id INT SIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,'
 	+ 'title VARCHAR(50) NOT NULL,'
 	+ 'description TEXT NOT NULL,'
@@ -32,7 +33,7 @@ connection.query('CREATE TABLE IF NOT EXISTS workouts(id INT SIGNED NOT NULL AUT
 	+ 'average_rating JSON)',
 	function (err, result) {
 		if (err) throw err;
-		console.log("[mysql] Workout table query successful");
+		console.log("[mysql] Posts table query successful");
 	});
 
 module.exports = connection;
