@@ -95,21 +95,111 @@ router.route('/register').post((req, res) => {
 router.route('/get-user-profile-list').get((req, res) => {
 	res.status(200).json(userProfiles);   // 200 = OK
 });
+
 router.route('/get-user-profile/:id').get((req, res) => {
-	let foundProfile = userProfiles.find((profile, i, array) => {
-		return profile.id === req.params.id;
-	});
-	if (foundProfile)
-		res.status(200).json(foundProfile);   // 200 = OK
-	else
-		res.sendStatus(404);   // 404 = not found
+	connection.query('SELECT * FROM user WHERE id = ' + req.params.id, function(err, result){
+		if(err){
+			res.sendStatus(404);
+			throw "[mysql] ERROR - " + err;
+		}
+	
+		console.log("[mysql] Successfully retrieved data for " + result.firstname + " " + result.lastname)
+
+		res.status(200).json(result)
+	})
 });
-// router.route('/update-user/:id').put((req, res) => {
-//     res.sendStatus(200);
-// });
-// router.route('/delete-user/:id').delete((req, res) => {
-//     res.sendStatus(200);
-// });
+
+router.route('/get-followed-users/:id').get((req, res) => {
+	connection.query('SELECT followed_users FROM user WHERE id = ' + req.params.id, function(err, result){
+		if(err) throw "[mysql] ERROR - " + err;
+	
+		//TODO: Add a check for if the result contains values
+		let temp = JSON.parse(result)
+		let insertValues = []
+		temp.map(function(val) { insertValues.push('(' + connection.escape(val) + ')'); });
+	
+		// Create a temp table to query against via INNER JOIN
+		connection.query('BEGIN;' +
+			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
+			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
+			+ 'SELECT * FROM users u INNER JOIN temp_table t ON t.id = u.id;'
+			+ 'COMMIT;', 
+			function(err, result){
+				if(err){
+					res.sendStatus(404);
+					throw "[mysql] ERROR - " + err;
+				}
+				res.status(200).json(result)
+			}
+		)
+	
+	})
+});
+
+router.route('/update-followed-users/:id/:tofollow').get((req, res) => {
+	connection.query('SELECT followed_users FROM user WHERE id = ' + req.params.id, function(err, result){
+		if(err) throw "[mysql] ERROR - " + err;
+	
+		//TODO: Add a check for if the result contains values
+		let temp = JSON.parse(result)
+		temp.push(req.params.tofollow)
+		temp = JSON.stringify(temp)
+	
+		connection.query('UPDATE users SET followed_users = ' + temp + ' WHERE id = ' + id, function(err, result){
+			if(err){
+				res.sendStatus(404);
+				throw "[mysql] ERROR - " + err;
+			}
+
+			res.status(200)
+			console.log("[mysql] Updated user " + req.params.id + "'s followed users!")
+		})
+	})
+});
+
+router.route('/get-followed-workouts/:id').get((req, res) => {
+	connection.query('SELECT workout_plans FROM user WHERE id = ' + req.params.id, function(err, result){
+		if(err) throw "[mysql] ERROR - " + err;
+	
+		//TODO: Add a check for if the result contains values
+		let temp = JSON.parse(result)
+		let insertValues = []
+		temp.map(function(val) { insertValues.push('(' + connection.escape(val) + ')'); });
+	
+		// Create a temp table to query against via INNER JOIN
+		connection.query('BEGIN;' +
+			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
+			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
+			+ 'SELECT * FROM workouts u INNER JOIN temp_table t ON t.id = u.id;'
+			+ 'COMMIT;', 
+			function(err, result){
+				if(err){
+					res.sendStatus(404);
+					throw "[mysql] ERROR - " + err;
+				}
+				res.status(200).json(result)
+			}
+		)
+	
+	})
+});
+
+// obj should be stringified JSON
+router.route('/update-biometric-data/:id/:obj').get((req, res) => {
+	connection.query('SELECT biometric_data FROM user WHERE id = ' + id, function(err, result){
+		if(err) throw "[mysql] ERROR - " + err;
+	
+	
+		connection.query('UPDATE users SET biometric_data = ' + req.params.obj + ' WHERE id = ' + req.params.id, function(err, result){
+			if(err){
+				res.sendStatus(404);
+				throw "[mysql] ERROR - " + err;
+			}
+			console.log("[mysql] Updated user " + req.params.id + "'s biometric data!")
+			res.status(200)
+		})
+	})
+});
 
 router.route('/get-trending/:num').get((req, res) => {
 	if (req.params.num < 1)
