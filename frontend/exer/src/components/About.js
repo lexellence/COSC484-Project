@@ -18,12 +18,12 @@ function About() {
           <br></br>
           <CardDeck>
           <Card>
+            
             <Card.Img variant="top" src={goal} />
             <Card.Body>
               <Card.Title><b>Set Goals</b></Card.Title>
               <Card.Text>
-                This is a wider card with supporting text below as a natural lead-in to
-                additional content. This content is a little bit longer.
+                Ever wanted to hit that PR? Set a goal and we'll help you get there. We fine-tune workout circuits just for you.
               </Card.Text>
             </Card.Body>
             <Card.Footer>
@@ -35,8 +35,7 @@ function About() {
             <Card.Body>
               <Card.Title><b>Learn Freely</b></Card.Title>
               <Card.Text>
-                This card has supporting text below as a natural lead-in to additional
-                content.{' '}
+                  Track your stats, progress, and goals from your phone (soon). Follow your favorite influencer or compete with friends!
               </Card.Text>
             </Card.Body>
             <Card.Footer>
@@ -48,9 +47,7 @@ function About() {
             <Card.Body>
               <Card.Title><b>Track Progress</b></Card.Title>
               <Card.Text>
-                This is a wider card with supporting text below as a natural lead-in to
-                additional content. This card has even longer content than the first to
-                show that equal height action.
+                We tailor your fitness journey for your needs and make it easy to get the most  accurate results.
               </Card.Text>
             </Card.Body>
             <Card.Footer>
