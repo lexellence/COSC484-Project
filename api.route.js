@@ -90,20 +90,38 @@ const workout2 = {
 const workouts = [workout1, workout2];
 
 router.route('/register').post((req, res) => {
-	res.sendStatus(201); // 201 = created
+	connection.query('INSERT INTO users (firstname, lastname, password) '
+	+ 'VALUES ' + connection.escape(req.params.firstname) + ', ' + connection.escape(req.params.lastname) + ', ' 
+	+ connection.escape(req.params.password), 
+	function(err, result){
+		if(err){
+			res.sendStatus(500);
+			throw "[mysql] ERROR - " + err;
+		}
+	
+		console.log("[mysql] Successfully added user!")
+
+		res.status(201)
+	})
 });
+
 router.route('/get-user-profile-list').get((req, res) => {
-	res.status(200).json(userProfiles);   // 200 = OK
+	connection.query('SELECT * FROM user LIMIT 25', function(err, result){
+		if(err){}
+		
+		console.log("[mysql] Successfully retrieved data for user profile list!")
+		res.status(200).json(result);
+	})
 });
 
 router.route('/get-user-profile/:id').get((req, res) => {
 	connection.query('SELECT * FROM user WHERE id = ' + req.params.id, function(err, result){
 		if(err){
-			res.sendStatus(404);
+			res.sendStatus(500);
 			throw "[mysql] ERROR - " + err;
 		}
 	
-		console.log("[mysql] Successfully retrieved data for " + result.firstname + " " + result.lastname)
+		console.log("[mysql] Successfully retrieved data for " + req.params.id)
 
 		res.status(200).json(result)
 	})
@@ -126,7 +144,7 @@ router.route('/get-followed-users/:id').get((req, res) => {
 			+ 'COMMIT;', 
 			function(err, result){
 				if(err){
-					res.sendStatus(404);
+					res.sendStatus(500);
 					throw "[mysql] ERROR - " + err;
 				}
 				res.status(200).json(result)
@@ -136,7 +154,7 @@ router.route('/get-followed-users/:id').get((req, res) => {
 	})
 });
 
-router.route('/update-followed-users/:id/:tofollow').get((req, res) => {
+router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
 	connection.query('SELECT followed_users FROM user WHERE id = ' + req.params.id, function(err, result){
 		if(err) throw "[mysql] ERROR - " + err;
 	
@@ -145,9 +163,9 @@ router.route('/update-followed-users/:id/:tofollow').get((req, res) => {
 		temp.push(req.params.tofollow)
 		temp = JSON.stringify(temp)
 	
-		connection.query('UPDATE users SET followed_users = ' + temp + ' WHERE id = ' + id, function(err, result){
+		connection.query('UPDATE users SET followed_users = ' + temp + ' WHERE id = ' + req.params.id, function(err, result){
 			if(err){
-				res.sendStatus(404);
+				res.sendStatus(500);
 				throw "[mysql] ERROR - " + err;
 			}
 
@@ -157,7 +175,41 @@ router.route('/update-followed-users/:id/:tofollow').get((req, res) => {
 	})
 });
 
-router.route('/get-followed-workouts/:id').get((req, res) => {
+// obj should be stringified JSON
+router.route('/update-biometric-data/:id/:obj').post((req, res) => {
+	connection.query('SELECT biometric_data FROM user WHERE id = ' + req.params.id, function(err, result){
+		if(err) throw "[mysql] ERROR - " + err;
+
+		connection.query('UPDATE users SET biometric_data = ' + req.params.obj + ' WHERE id = ' + req.params.id, 
+		function(err, result){
+			if(err){
+				res.sendStatus(500);
+				throw "[mysql] ERROR - " + err;
+			}
+			console.log("[mysql] Updated user " + req.params.id + "'s biometric data!")
+			res.status(200)
+		})
+	})
+});
+
+router.route('/get-trending/:num').get((req, res) => {
+	connection.query('SELECT * FROM workouts LIMIT 25 ORDER BY total_views ASC', function(err, result){
+		if(err){
+			res.sendStatus(500);
+			throw "[mysql] ERROR - " + err;
+		}
+	
+		console.log("[mysql] Successfully retrieved data for workouts list!")
+		res.status(200).json(result);
+	})
+});
+
+//+------------------------\----------------------------------
+//|	    Get Favorites      |
+//\------------------------/----------------------------------
+//	Responds with array of newest workouts from followed users
+//------------------------------------------------------------
+router.route('/get-favorites/:id').get((req, res) => {
 	connection.query('SELECT workout_plans FROM user WHERE id = ' + req.params.id, function(err, result){
 		if(err) throw "[mysql] ERROR - " + err;
 	
@@ -174,56 +226,13 @@ router.route('/get-followed-workouts/:id').get((req, res) => {
 			+ 'COMMIT;', 
 			function(err, result){
 				if(err){
-					res.sendStatus(404);
+					res.sendStatus(500);
 					throw "[mysql] ERROR - " + err;
 				}
 				res.status(200).json(result)
 			}
 		)
-	
 	})
-});
-
-// obj should be stringified JSON
-router.route('/update-biometric-data/:id/:obj').get((req, res) => {
-	connection.query('SELECT biometric_data FROM user WHERE id = ' + id, function(err, result){
-		if(err) throw "[mysql] ERROR - " + err;
-	
-	
-		connection.query('UPDATE users SET biometric_data = ' + req.params.obj + ' WHERE id = ' + req.params.id, function(err, result){
-			if(err){
-				res.sendStatus(404);
-				throw "[mysql] ERROR - " + err;
-			}
-			console.log("[mysql] Updated user " + req.params.id + "'s biometric data!")
-			res.status(200)
-		})
-	})
-});
-
-router.route('/get-trending/:num').get((req, res) => {
-	if (req.params.num < 1)
-		res.sendStatus(400);    // 400 = bad request
-
-	if (req.params.num >= workouts.length)
-		res.status(200).json(workouts);   // 200 = OK
-	else
-		res.status(200).json(workouts.slice(0, req.params.num));   // 200 = OK
-});
-
-//+------------------------\----------------------------------
-//|	    Get Favorites      |
-//\------------------------/----------------------------------
-//	Responds with array of newest workouts from followed users
-//------------------------------------------------------------
-router.route('/get-favorites/:userid').get((req, res) => {
-	// if (req.params.id < 0)
-	//     res.sendStatus(400);    // 400 = bad request
-
-	if (req.params.num >= workouts.length)
-		res.status(200).json(workouts);   // 200 = OK
-	else
-		res.status(200).json(workouts.slice(0, req.params.num));   // 200 = OK
 });
 
 //+------------------------\----------------------------------
@@ -232,11 +241,47 @@ router.route('/get-favorites/:userid').get((req, res) => {
 //	Responds with array of 'max' newest workouts from followed users
 //------------------------------------------------------------
 router.route('/get-feed/:userid/:max').get((req, res) => {
-	// STUB
-	if (req.params.max >= workouts.length)
-		res.status(200).json(workouts);   // 200 = OK
-	else
-		res.status(200).json(workouts.slice(0, req.params.num));   // 200 = OK
+
+	connection.query('SELECT followed_users FROM user WHERE id = ' + req.params.id, function(err, result){
+		if(err) throw "[mysql] ERROR - " + err;
+	
+		//TODO: Add a check for if the result contains values
+		let temp = JSON.parse(result)
+		let insertValues = []
+		temp.map(function(val) { insertValues.push('(' + connection.escape(val) + ')'); });
+	
+		// Create a temp table to query against via INNER JOIN
+		connection.query('BEGIN;' +
+			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
+			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
+			+ 'SELECT * FROM users u INNER JOIN temp_table t ON t.id = u.id;'
+			+ 'COMMIT;', 
+			function(err, result){
+				if(err){
+					res.sendStatus(500);
+					throw "[mysql] ERROR - " + err;
+				}
+
+				let followed = JSON.parse(result)
+				insertValues = []
+				followed.map(function(val) { insertValues.push('(' + connection.escape(val) + ')'); });
+
+				connection.query('BEGIN;' +
+					+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
+					+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
+					+ 'SELECT * FROM workouts u INNER JOIN temp_table t ON t.id = u.id LIMIT ' + req.params.max + ';'
+					+ 'COMMIT;', 
+					function(err, result){
+						if(err){
+							res.sendStatus(500);
+							throw "[mysql] ERROR - " + err;
+						}
+						res.status(200).json(result)
+					}
+				)
+			}
+		)
+	})
 });
 
 module.exports = router;

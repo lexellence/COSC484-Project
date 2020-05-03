@@ -26,11 +26,13 @@ connection.query('CREATE TABLE IF NOT EXISTS user(id INT SIGNED NOT NULL AUTO_IN
 	});
 
 connection.query('CREATE TABLE IF NOT EXISTS workouts(id INT SIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+	+ 'user_id INT NOT NULL,'
 	+ 'title VARCHAR(50) NOT NULL,'
 	+ 'description TEXT NOT NULL,'
 	+ 'total_favorites INT SIGNED,'
 	+ 'total_views BIGINT SIGNED, '
-	+ 'average_rating JSON)',
+	+ 'average_rating JSON,'
+	+ 'link TEXT)',
 	function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 		console.log("[mysql] Posts table query successful");
