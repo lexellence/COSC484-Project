@@ -59,7 +59,7 @@ class Landing extends Component {
                                   </div>
                                   <div className="overlay-panel overlay-right">
                                       <h1>Welcome to EXER!</h1>
-                                      <p className="landing-login">We'll need some information to get you started.</p>
+                                      <p className="landing-login"><b>We'll need some information to get you started.</b></p>
                                       <a href={SignUp}><button className="ghost" id="signUp">Sign Up</button></a>
                                   </div>
                               </div>

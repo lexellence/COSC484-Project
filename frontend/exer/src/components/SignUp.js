@@ -23,9 +23,6 @@ class SignUp extends Component {
                                         type="text"
                                         placeholder="First Name"
                                         required />
-                                    <Form.Control.Feedback type="invalid">
-                                        First name required.
-                                    </Form.Control.Feedback>
                                 </Form.Group>
 
                                 <Form.Group as={Col} controlId="lastname">
@@ -36,9 +33,6 @@ class SignUp extends Component {
                                         type="text"
                                         placeholder="Last Name"
                                         required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Last name required.
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Row>
 
@@ -50,9 +44,6 @@ class SignUp extends Component {
                                     type="text"
                                     placeholder="Username"
                                     required />
-                                <Form.Control.Feedback type="invalid">
-                                    Username required.
-                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="email">
@@ -63,9 +54,6 @@ class SignUp extends Component {
                                     type="email"
                                     placeholder="Email Address"
                                     required />
-                                <Form.Control.Feedback type="invalid">
-                                    Email address required.
-                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="password">
