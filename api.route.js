@@ -3,13 +3,16 @@ const mysql = require('mysql');
 const router = express.Router();
 const db = require('./db');
 
-// myUsername: responds with { username: } object, or status 401 if not authenticated
-router.route('/myUsername'), (req, res) => {
-	const uid = req.uid;
-	if (!uid) {
+function requireAuth(req, res, next) {
+	if (!req.uid) {
 		res.sendStatus(401);
 		return;
 	}
+	next();
+}
+
+// myUsername: responds with { username: } object, or status 401 if not authenticated
+router.route('/myUsername'), requireAuth, (req, res) => {
 	db.query('SELECT username FROM users WHERE id = ?', [uid],
 		(error, results, fields) => {
 			if (results.length > 0)
@@ -51,14 +54,37 @@ router.route('/get-user-profile-list').get((req, res) => {
 	});
 });
 
-router.route('/get-profile').get((req, res) => {
+const PROFILE_FIELDS = 'firstname, lastname, username, email, profile_picture, bio';
+router.route('/get-profile-list').get((req, res) => {
+	db.query('SELECT ' + PROFILE_FIELDS + ' FROM users LIMIT 25', function (err, result) {
+		if (err) { }
+
+		console.log("[mysql] Successfully retrieved data for user profile list!");
+		res.status(200).json(result);
+	});
+});
+
+// Get { PROFILE_FIELDS } from :username
+router.route('/get-profile/:username').get(requireAuth, (req, res) => {
+	db.query('SELECT ' + PROFILE_FIELDS + ' FROM users WHERE username = ' + req.params.username, function (err, result) {
+		if (err) {
+			res.sendStatus(500);
+			throw "[mysql] ERROR - " + err;
+		}
+
+		console.log("[mysql] Successfully retrieved data for " + req.params.id);
+
+		res.status(200).json(result);
+	});
+});
+// Get { PROFILE_FIELDS } for logged in user
+router.route('/get-my-profile').get(requireAuth, (req, res) => {
 	const uid = req.uid;
 	if (!uid) {
 		res.sendStatus(401);
 		return;
 	}
-	const profileFields = 'firstname, lastname, username, email, profile_picture, bio';
-	db.query('SELECT ' + profileFields + ' FROM users WHERE id = ' + uid, function (err, result) {
+	db.query('SELECT ' + PROFILE_FIELDS + ' FROM users WHERE id = ' + uid, function (err, result) {
 		if (err) {
 			res.sendStatus(500);
 			throw "[mysql] ERROR - " + err;
@@ -70,7 +96,7 @@ router.route('/get-profile').get((req, res) => {
 	});
 });
 
-router.route('/get-followed-users/:id').get((req, res) => {
+router.route('/get-followed-users/:id').get(requireAuth, (req, res) => {
 	db.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
