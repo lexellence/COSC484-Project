@@ -88,7 +88,6 @@ router.route('/get-my-profile').get(requireAuth, (req, res) => {
 	});
 });
 
-// Get { PROFILE_FIELDS } for username
 router.route('/get-followed-users/:username').get(requireAuth, (req, res) => {
 	const username = req.params.username;
 	db.query('SELECT followed_users FROM users WHERE username = ' + username, function (err, result) {
