@@ -6,7 +6,13 @@ import Support from './components/Support.js';
 import Profile from './components/Profile.js';
 import OurTeam from './components/OurTeam.js';
 import OurMission from './components/OurMission.js';
-import OurVision from './components/OurVision.js'
+import OurVision from './components/OurVision.js';
+import ContactSupport from './components/ContactSupport.js';
+import TermsOfService from './components/TermsOfService';
+import PrivacyPolicy from './components/PrivacyPolicy.js';
+import FaceBook from './components/FaceBook.js';
+import Instagram from './components/Instagram.js';
+import Twitter from './components/Twitter.js';
 import Trending from './components/Trending.js';
 import Feed from './components/Feed.js';
 import Footer from './components/Footer.js';
@@ -118,6 +124,24 @@ class App extends Component {
                   </Route>
                   <Route path="/OurVision" component={OurVision}>
                     <OurVision />
+                    </Route>
+                  <Route path="/ContactSupport" component={ContactSupport}>
+                    <ContactSupport />
+                  </Route>
+                  <Route path="/TermsOfService" component={TermsOfService}>
+                    <TermsOfService />
+                  </Route>
+                  <Route path="/PrivacyPolicy" component={PrivacyPolicy}>
+                    <PrivacyPolicy />
+                  </Route>
+                  <Route path="/FaceBook" component={FaceBook}>
+                    <FaceBook />
+                  </Route>
+                  <Route path="/Instagram" component={Instagram}>
+                    <Instagram />
+                  </Route>
+                  <Route path="/Twitter" component={Twitter}>
+                    <Twitter />
                   </Route>
                 </Switch>
               </div>
@@ -154,6 +178,24 @@ class App extends Component {
                   </Route>
                   <Route path="/OurVision" component={OurVision}>
                     <OurVision />
+                  </Route>
+                  <Route path="/ContactSupport" component={ContactSupport}>
+                    <ContactSupport />
+                  </Route>
+                  <Route path="/TermsOfService" component={TermsOfService}>
+                    <TermsOfService />
+                  </Route>
+                  <Route path="/PrivacyPolicy" component={PrivacyPolicy}>
+                    <PrivacyPolicy />
+                  </Route>
+                  <Route path="/FaceBook" component={FaceBook}>
+                    <FaceBook />
+                  </Route>
+                  <Route path="/Instagram" component={Instagram}>
+                    <Instagram />
+                  </Route>
+                  <Route path="/Twitter" component={Twitter}>
+                    <Twitter />
                   </Route>
                 </Switch>
               </div>

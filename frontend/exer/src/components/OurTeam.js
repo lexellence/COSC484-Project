@@ -39,9 +39,6 @@ class OurTeam extends Component {
                 </Card.Body>
               </Card>
             </CardDeck>
-            <p className="teammembers-subtitle">
-            <b>David Leksen, </b><b>Haley Turfle, </b><b>Casey McCoy, </b><b>Brenton Lim, </b><b>Mario Abdelsayed, </b><b>Matt King, </b><b>Philip Covell, </b><b>Issac Tray, </b><b>Lawrence Chanaud Jr.</b>
-            </p>
             <br></br>
           </div>
           </p>

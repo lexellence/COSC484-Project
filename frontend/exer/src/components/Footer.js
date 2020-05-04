@@ -31,9 +31,9 @@ class Footer extends Component {
           <div className="col-md-3 col-sm-6">
             <h4>Support</h4>
                 <ul className="list-unstyled">
-                <a href="/"> <li>Contact Support</li> </a>
-                <a href="/"> <li>Terms of Service</li> </a>
-                <a href="/"> <li>Privacy Policy</li> </a>
+                <a href="/ContactSupport"> <li>Contact Support</li> </a>
+                <a href="/TermsOfService"> <li>Terms of Service</li> </a>
+                <a href="/Privacypolicy"> <li>Privacy Policy</li> </a>
                 </ul>
           </div>
 
@@ -41,9 +41,9 @@ class Footer extends Component {
             <div className="col-md-3 col-sm-6">
             <h4>Connect</h4>
                 <ul className="list-unstyled">
-                <a href="/"> <li>Facebook</li> </a>
-                <a href="/"> <li>Twitter</li> </a>
-                <a href="/"> <li>Instagram</li> </a>
+                <a href="/FaceBook"> <li>Facebook</li> </a>
+                <a href="/Twitter"> <li>Twitter</li> </a>
+                <a href="/Instagram"> <li>Instagram</li> </a>
                 </ul>
             </div>
           </div>
