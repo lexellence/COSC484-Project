@@ -37,11 +37,13 @@ router.route('/register/:firstname/:lastname/:username/:email/:password').post((
 });
 
 router.route('/delete-my-account').post(requireAuth, (req, res) => {
-	db.query("DELETE FROM users WHERE id = " + req.params.id, function (err, result) {
+	const uid = req.uid;
+	db.query("DELETE FROM users WHERE id = " + uid, function (err, result) {
 		if (err) {
 			res.sendStatus(400);
 			throw "[mysql] ERROR - " + err;
-		} else res.sendStatus(201);// 201 = created
+		}
+		else res.sendStatus(201);// 201 = created
 	});
 });
 
