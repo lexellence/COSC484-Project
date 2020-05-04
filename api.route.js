@@ -13,6 +13,7 @@ function requireAuth(req, res, next) {
 
 // myUsername: responds with { username: } object, or status 401 if not authenticated
 router.route('/myUsername'), requireAuth, (req, res) => {
+	const uid = req.uid;
 	db.query('SELECT username FROM users WHERE id = ?', [uid],
 		(error, results, fields) => {
 			if (results.length > 0)
@@ -23,8 +24,8 @@ router.route('/myUsername'), requireAuth, (req, res) => {
 
 router.route('/register/:firstname/:lastname/:username/:email/:password').post((req, res) => {
 	db.query('INSERT INTO users (firstname, lastname, username, email, password) '
-		+ 'VALUES ' + db.escape(req.params.firstname) + ', ' + db.escape(req.params.lastname) + ', '
-		+ db.escape(req.params.username) + ', ' + db.escape(req.params.email) + ', ' + db.escape(req.params.password),
+		+ 'VALUES (' + db.escape(req.params.firstname) + ', ' + db.escape(req.params.lastname) + ', '
+		+ db.escape(req.params.username) + ', ' + db.escape(req.params.email) + ', ' + db.escape(req.params.password) + ')',
 		function (err, result) {
 			if (err) {
 				res.sendStatus(500);
@@ -87,8 +88,10 @@ router.route('/get-my-profile').get(requireAuth, (req, res) => {
 	});
 });
 
-router.route('/get-followed-users/:id').get(requireAuth, (req, res) => {
-	db.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
+// Get { PROFILE_FIELDS } for username
+router.route('/get-followed-users/:username').get(requireAuth, (req, res) => {
+	const username = req.params.username;
+	db.query('SELECT followed_users FROM users WHERE username = ' + username, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
@@ -99,7 +102,7 @@ router.route('/get-followed-users/:id').get(requireAuth, (req, res) => {
 		// Create a temp table to query against via INNER JOIN
 		db.query('BEGIN;' +
 			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
-			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
+			+ 'INSERT INTO temp_table(id) VALUES (' + insertValues.join(', ') + ');'
 			+ 'SELECT * FROM users u INNER JOIN temp_table t ON t.id = u.id;'
 			+ 'COMMIT;',
 			function (err, result) {
@@ -114,8 +117,9 @@ router.route('/get-followed-users/:id').get(requireAuth, (req, res) => {
 	});
 });
 
-router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
-	db.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
+router.route('/update-followed-users/:username/:tofollow').post((req, res) => {
+	const username = req.params.username;
+	db.query('SELECT followed_users FROM users WHERE username = ' + username, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
@@ -123,18 +127,19 @@ router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
 		temp.push(req.params.tofollow);
 		temp = JSON.stringify(temp);
 
-		db.query('UPDATE users SET followed_users = ' + temp + ' WHERE id = ' + req.params.id, function (err, result) {
+		db.query('UPDATE users SET followed_users = ' + temp + ' WHERE username = ' + username, function (err, result) {
 			if (err) {
 				res.sendStatus(500);
 				throw "[mysql] ERROR - " + err;
 			}
 
 			res.status(200);
-			console.log("[mysql] Updated user " + req.params.id + "'s followed users!");
+			console.log("[mysql] Updated user " + username + "'s followed users!");
 		});
 	});
 });
 
+// Get :num top trending workouts
 router.route('/get-trending/:num').get((req, res) => {
 	db.query('SELECT * FROM posts LIMIT 25 ORDER BY total_views ASC', function (err, result) {
 		if (err) {
@@ -159,7 +164,7 @@ router.route('/get-favorites/:id').get((req, res) => {
 		// Create a temp table to query against via INNER JOIN
 		db.query('BEGIN;' +
 			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
-			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
+			+ 'INSERT INTO temp_table(id) VALUES (' + insertValues.join(', ') + ');'
 			+ 'SELECT * FROM posts u INNER JOIN temp_table t ON t.id = u.id;'
 			+ 'COMMIT;',
 			function (err, result) {
@@ -229,7 +234,7 @@ router.route('/get-feed/:user_id/:max').get((req, res) => {
 		// Create a temp table to query against via INNER JOIN
 		db.query('BEGIN;' +
 			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
-			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
+			+ 'INSERT INTO temp_table(id) VALUES (' + insertValues.join(', ') + ');'
 			+ 'SELECT * FROM users u INNER JOIN temp_table t ON t.id = u.id;'
 			+ 'COMMIT;',
 			function (err, result) {
@@ -244,7 +249,7 @@ router.route('/get-feed/:user_id/:max').get((req, res) => {
 
 				db.query('BEGIN;' +
 					+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
-					+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
+					+ 'INSERT INTO temp_table(id) VALUES (' + insertValues.join(', ') + ');'
 					+ 'SELECT * FROM posts u INNER JOIN temp_table t ON t.id = u.id LIMIT ' + req.params.max + ';'
 					+ 'COMMIT;',
 					function (err, result) {
