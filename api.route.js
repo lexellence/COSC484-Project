@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const router = express.Router();
 const db = require('./db');
 
-// myUsername: responds with { username: } object
+// myUsername: responds with { username: } object, or status 401 if not authenticated
 router.route('/myUsername'), (req, res) => {
 	const uid = req.uid;
 	if (!uid) {
@@ -109,24 +109,6 @@ router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
 			res.status(200);
 			console.log("[mysql] Updated user " + req.params.id + "'s followed users!");
 		});
-	});
-});
-
-// obj should be stringified JSON
-// *** NO LONGER USING BIOMETRIC DATA ***
-router.route('/update-biometric-data/:id/:obj').post((req, res) => {
-	db.query('SELECT biometric_data FROM user WHERE id = ' + req.params.id, function (err, result) {
-		if (err) throw "[mysql] ERROR - " + err;
-
-		db.query('UPDATE user SET biometric_data = ' + req.params.obj + ' WHERE id = ' + req.params.id,
-			function (err, result) {
-				if (err) {
-					res.sendStatus(500);
-					throw "[mysql] ERROR - " + err;
-				}
-				console.log("[mysql] Updated user " + req.params.id + "'s biometric data!");
-				res.status(200);
-			});
 	});
 });
 
