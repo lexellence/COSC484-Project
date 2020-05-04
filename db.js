@@ -13,14 +13,17 @@ connection.connect((err) => {
 });
 
 // Ensure SQL tables exist, create them if not
-connection.query('CREATE TABLE IF NOT EXISTS `user` (`id` int(11) NOT NULL AUTO_INCREMENT, '
+connection.query('CREATE TABLE IF NOT EXISTS `users` (`id` int(11) NOT NULL AUTO_INCREMENT, '
 	+ '`firstname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,'
 	+ '`lastname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,'
 	+ '`username` varchar(45) COLLATE utf8_unicode_ci NOT NULL,'
 	+ '`email` varchar(45) COLLATE utf8_unicode_ci NOT NULL,'
 	+ '`password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,'
 	+ '`profile_picture` text COLLATE utf8_unicode_ci,'
+	+ '`bio` longtext COLLATE utf8_unicode_ci,'
 	+ '`followed_users` json DEFAULT NULL,'
+	+ '	`following` int(11) DEFAULT NULL,'
+	+ '`followers` int(11) DEFAULT NULL,'
 	+ '`posts_id` json DEFAULT NULL,'
 	+ '`fav_posts_id` json DEFAULT NULL,'
 	+ 'PRIMARY KEY (`id`)'
@@ -34,8 +37,11 @@ connection.query('CREATE TABLE IF NOT EXISTS `posts` (`id` int(11) NOT NULL AUTO
 	+ '`user_id` int(11) NOT NULL,'
 	+ '`title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,'
 	+ '`body` text COLLATE utf8_unicode_ci NOT NULL,'
-	+ '`total_favorites` int(11) DEFAULT NULL,'
 	+ '`comments` json DEFAULT NULL,'
+	+ '`video_link` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,'
+	+ '`hashtags` json DEFAULT NULL,'
+	+ '`total_views` int(11) DEFAULT NULL,'
+	+ '`total_favorites` int(11) DEFAULT NULL,'
 	+ 'PRIMARY KEY (`id`)'
 	+ ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;',
 	function (err, result) {

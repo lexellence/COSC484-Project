@@ -9,57 +9,64 @@ router.route('/how-is-today').get((req, res, next) => {
 });
 
 // Fake data for stubs
-const userProfile1 = {
-	id: 123,
-	firstname: 'first',
-	lastname: 'last',
-	email: 'email1@mail.com',
-	profilePic: 'picFilename.png',
-	following: [124],
-	workouts: [987],
-	favorites: [987, 988],
-	workoutActivity: 'biometric data?'
-};
-const userProfile2 = {
-	id: 124,
-	firstname: 'first2',
-	lastname: 'last2',
-	email: 'email2@mail.com',
-	profilePic: 'picFilename2.png',
-	following: [123],
-	workouts: [988],
-	favorites: [987, 988],
-	workoutActivity: 'biometric data?'
-};
-const userProfiles = [userProfile1, userProfile2];
-const workout1 = {
-	id: 987,
-	userID: 123,
-	title: "Power Lifting",
-	description: "Achieve max gainz",
-	numFavorites: 245,
-	numViews: 576,
-	rating: 4.5,
-	hashtags: ['power lifting', 'max gainz'],
-	videoLink: "https://youtube.com/example"
-};
-const workout2 = {
-	id: 988,
-	userID: 123,
-	title: "Workout2",
-	description: "Description2",
-	numFavorites: 12,
-	numViews: 33,
-	rating: 4.2,
-	hashtags: ['hashtag1', 'hashtag2'],
-	videoLink: "https://youtube.com/example2"
-};
-const workouts = [workout1, workout2];
+const userProfiles = [
+	userProfile1 = {
+		id: 123,
+		firstname: 'first',
+		lastname: 'last',
+		username: 'testuser1',
+		email: 'email1@mail.com',
+		password: 'password',
+		profile_picture: 'picFilename.png',
+		bio: 'I am new to this!',
+		following: 124,
+		followers: 200,
+		posts_id: 987,
+		fav_posts_id: [987, 988],
+	},
+	userProfile2 = {
+		id: 124,
+		firstname: 'first2',
+		lastname: 'last2',
+		username: 'testuser2',
+		email: 'email2@mail.com',
+		password: 'password',
+		profile_picture: 'picFilename2.png',
+		bio: 'Working out is lyf',
+		following: 123,
+		followers: 120,
+		posts_id: 988,
+		fav_posts_id: [987, 988],
+	}
+]
 
-router.route('/register/:firstname/:lastname/:password').post((req, res) => {
-	connection.query('INSERT INTO users (firstname, lastname, password) '
+const posts = [
+	post1 = {
+		id: 987,
+		user_id: 123,
+		title: "Power Lifting",
+		body: "Achieve max gainz",
+		total_favorites: 245,
+		total_views: 576,
+		hashtags: ['power lifting', 'max gainz'],
+		video_link: "https://youtube.com/example"
+	},
+	post2 = {
+		id: 988,
+		user_id: 123,
+		title: "Workout2",
+		description: "Description2",
+		total_favorites: 12,
+		total_views: 33,
+		hashtags: ['hashtag1', 'hashtag2'],
+		video_link: "https://youtube.com/example2"
+	}
+]
+
+router.route('/register/:firstname/:lastname/:email/:password').post((req, res) => {
+	connection.query('INSERT INTO users (firstname, lastname, email, password) '
 	+ 'VALUES ' + connection.escape(req.params.firstname) + ', ' + connection.escape(req.params.lastname) + ', ' 
-	+ connection.escape(req.params.password), 
+	+ connection.escape(req.params.email) + connection.escape(req.params.password), 
 	function(err, result){
 		if(err){
 			res.sendStatus(500);
@@ -67,13 +74,12 @@ router.route('/register/:firstname/:lastname/:password').post((req, res) => {
 		}
 	
 		console.log("[mysql] Successfully added user!")
-
 		res.status(201)
 	})
 });
 
 router.route('/delete-account/:id').post((req, res) => {
-	connection.query("DELETE FROM user WHERE id = " + req.params.id, function (err, result) {
+	connection.query("DELETE FROM users WHERE id = " + req.params.id, function (err, result) {
 		if (err){ 
 		res.sendStatus(400);
 		throw "[mysql] ERROR - " + err;
@@ -82,7 +88,7 @@ router.route('/delete-account/:id').post((req, res) => {
 });
 
 router.route('/get-user-profile-list').get((req, res) => {
-	connection.query('SELECT * FROM user LIMIT 25', function(err, result){
+	connection.query('SELECT * FROM users LIMIT 25', function(err, result){
 		if(err){}
 		
 		console.log("[mysql] Successfully retrieved data for user profile list!")
@@ -91,7 +97,7 @@ router.route('/get-user-profile-list').get((req, res) => {
 });
 
 router.route('/get-user-profile/:id').get((req, res) => {
-	connection.query('SELECT * FROM user WHERE id = ' + req.params.id, function(err, result){
+	connection.query('SELECT * FROM users WHERE id = ' + req.params.id, function(err, result){
 		if(err){
 			res.sendStatus(500);
 			throw "[mysql] ERROR - " + err;
@@ -104,7 +110,7 @@ router.route('/get-user-profile/:id').get((req, res) => {
 });
 
 router.route('/get-followed-users/:id').get((req, res) => {
-	connection.query('SELECT followed_users FROM user WHERE id = ' + req.params.id, function(err, result){
+	connection.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function(err, result){
 		if(err) throw "[mysql] ERROR - " + err;
 	
 		//TODO: Add a check for if the result contains values
@@ -131,7 +137,7 @@ router.route('/get-followed-users/:id').get((req, res) => {
 });
 
 router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
-	connection.query('SELECT followed_users FROM user WHERE id = ' + req.params.id, function(err, result){
+	connection.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function(err, result){
 		if(err) throw "[mysql] ERROR - " + err;
 	
 		//TODO: Add a check for if the result contains values
@@ -152,11 +158,12 @@ router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
 });
 
 // obj should be stringified JSON
+// *** NO LONGER USING BIOMETRIC DATA ***
 router.route('/update-biometric-data/:id/:obj').post((req, res) => {
 	connection.query('SELECT biometric_data FROM user WHERE id = ' + req.params.id, function(err, result){
 		if(err) throw "[mysql] ERROR - " + err;
 
-		connection.query('UPDATE users SET biometric_data = ' + req.params.obj + ' WHERE id = ' + req.params.id, 
+		connection.query('UPDATE user SET biometric_data = ' + req.params.obj + ' WHERE id = ' + req.params.id, 
 		function(err, result){
 			if(err){
 				res.sendStatus(500);
@@ -169,7 +176,7 @@ router.route('/update-biometric-data/:id/:obj').post((req, res) => {
 });
 
 router.route('/get-trending/:num').get((req, res) => {
-	connection.query('SELECT * FROM workouts LIMIT 25 ORDER BY total_views ASC', function(err, result){
+	connection.query('SELECT * FROM posts LIMIT 25 ORDER BY total_views ASC', function(err, result){
 		if(err){
 			res.sendStatus(500);
 			throw "[mysql] ERROR - " + err;
@@ -180,13 +187,8 @@ router.route('/get-trending/:num').get((req, res) => {
 	})
 });
 
-//+------------------------\----------------------------------
-//|	    Get Favorites      |
-//\------------------------/----------------------------------
-//	Responds with array of newest workouts from followed users
-//------------------------------------------------------------
 router.route('/get-favorites/:id').get((req, res) => {
-	connection.query('SELECT workout_plans FROM user WHERE id = ' + req.params.id, function(err, result){
+	connection.query('SELECT fav_posts_id FROM users WHERE id = ' + req.params.id, function(err, result){
 		if(err) throw "[mysql] ERROR - " + err;
 	
 		//TODO: Add a check for if the result contains values
@@ -198,7 +200,7 @@ router.route('/get-favorites/:id').get((req, res) => {
 		connection.query('BEGIN;' +
 			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
 			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
-			+ 'SELECT * FROM workouts u INNER JOIN temp_table t ON t.id = u.id;'
+			+ 'SELECT * FROM posts u INNER JOIN temp_table t ON t.id = u.id;'
 			+ 'COMMIT;', 
 			function(err, result){
 				if(err){
@@ -211,8 +213,8 @@ router.route('/get-favorites/:id').get((req, res) => {
 	})
 });
 
-router.route('/add-favorite/:id/:workoutid').post((req, res) => {
-	connection.query("SELECT favorites FROM user WHERE id = " + req.params.id, function (err, result) {
+router.route('/add-favorite/:id/:id').post((req, res) => {
+	connection.query("SELECT fav_posts_id FROM users WHERE id = " + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 	  
 		let temp = JSON.parse(result);
@@ -220,7 +222,7 @@ router.route('/add-favorite/:id/:workoutid').post((req, res) => {
 		temp = JSON.stringify(temp);
 	  
 		connection.query(
-		  "UPDATE user SET favorites = " + temp + "WHERE id = " + id,function (err, result) {
+		  "UPDATE users SET fav_posts_id = " + temp + "WHERE id = " + id,function (err, result) {
 			if(err){
 				res.sendStatus(404);
 				throw "[mysql] ERROR - " + err;
@@ -231,37 +233,32 @@ router.route('/add-favorite/:id/:workoutid').post((req, res) => {
 	  });
 });
 
-router.route('/add_workout').post((req, res) => {
-	var workoutObject = req.body;
-	/* Example workout structure
-		var workout = {
-			title: "title of workout",
-			desc: "basic description of workout",
-			url: "url link to video of workout"
-		}	
-	*/
-	res.status(200);
-	return;
-});
+// router.route('/add_post').post((req, res) => {
+// 	var workoutObject = req.body;
+// 	/* Example workout structure
+// 		var workout = {
+// 			title: "title of workout",
+// 			desc: "basic description of workout",
+// 			url: "url link to video of workout"
+// 		}	
+// 	*/
+// 	res.status(200);
+// 	return;
+// });
 
-router.route('/workouts').get((req, res) => {
-	res.status(200).send('Workouts Page');
-	return;
-});
+// router.route('/posts').get((req, res) => {
+// 	res.status(200).send('Feed');
+// 	return;
+// });
 
-router.route('/workouts/trending').get((req, res) => {
-	res.status(200).send('Trending Workouts');
-	return;
-});
+// router.route('/posts/trending').get((req, res) => {
+// 	res.status(200).send('Trending Workouts');
+// 	return;
+// });
 
-//+------------------------\----------------------------------
-//|	       Get Feed        |
-//\------------------------/----------------------------------
-//	Responds with array of 'max' newest workouts from followed users
-//------------------------------------------------------------
-router.route('/get-feed/:userid/:max').get((req, res) => {
+router.route('/get-feed/:user_id/:max').get((req, res) => {
 
-	connection.query('SELECT followed_users FROM user WHERE id = ' + req.params.id, function(err, result){
+	connection.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function(err, result){
 		if(err) throw "[mysql] ERROR - " + err;
 	
 		//TODO: Add a check for if the result contains values
@@ -288,8 +285,8 @@ router.route('/get-feed/:userid/:max').get((req, res) => {
 				connection.query('BEGIN;' +
 					+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
 					+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
-					+ 'SELECT * FROM workouts u INNER JOIN temp_table t ON t.id = u.id LIMIT ' + req.params.max + ';'
-					+ 'COMMIT;', 
+					+ 'SELECT * FROM posts u INNER JOIN temp_table t ON t.id = u.id LIMIT ' + req.params.max + ';'
+					+ 'COMMIT;',
 					function(err, result){
 						if(err){
 							res.sendStatus(500);

@@ -10,10 +10,10 @@ class SignUp extends Component {
     render() {
         return (
             <div>
-                <Container fluid>
+                <Container className="mt-5 mb-5" fluid>
                     <Row className="justify-content-md-center">
-                        <Form>
-                            <h1>Sign Up</h1>
+                        <Form autoComplete="off">
+                            <h1>Sign Up</h1><br />
                             <Row>
                                 <Form.Group as={Col} controlId="firstname">
                                     <Form.Label>First Name</Form.Label>

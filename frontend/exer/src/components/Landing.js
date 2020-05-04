@@ -9,7 +9,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import About from './About.js'
 import SignIn from './SignIn.js';
-import SignUp from './SignUp.js';
 import '../App.css';
 
 class Landing extends Component {
@@ -52,15 +51,13 @@ class Landing extends Component {
                           </div>
                           <div className="container-shadow overlay-container mr-md-3">
                               <div className="overlay">
-                                  <div className="overlay-panel overlay-left">
-                                      <h1>Welcome Back!</h1>
-                                      <p className="landing-login">To keep connected with us please login with your personal info</p>
-                                      <button className="ghost" id="signIn">Sign In</button>
-                                  </div>
                                   <div className="overlay-panel overlay-right">
-                                      <h1>Welcome to EXER!</h1>
-                                      <p className="landing-login"><b>We'll need some information to get you started.</b></p>
-                                      <a href={SignUp}><button className="ghost" id="signUp">Sign Up</button></a>
+                                      <h1>Welcome Back!</h1>
+                                      <p className="landing-login">
+                                        <b>To keep connected with us please login.</b>
+                                      </p>
+                                      <p>Don't have an account yet?</p>
+                                      <a href='/SignUp'><button className="ghost" id="signUp">Sign Up</button></a>
                                   </div>
                               </div>
                           </div>

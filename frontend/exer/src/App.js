@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Nav from './components/Navbar.js';
 import Row from 'react-bootstrap/Row';
-import Landing from './components/Landing.js'
+import Landing from './components/Landing.js';
+import SignUp from './components/SignUp.js';
 import Support from './components/Support.js';
 import Profile from './components/Profile.js';
 import OurTeam from './components/OurTeam.js';
@@ -17,6 +18,7 @@ import Feed from './components/Feed.js';
 import Footer from './components/Footer.js';
 import UserStore from './components/UserStore.js';
 import Spinner from 'react-bootstrap/Spinner';
+import Container from 'react-bootstrap/Container';
 import { observer } from 'mobx-react';
 import {
   BrowserRouter as Router,
@@ -25,7 +27,6 @@ import {
   Redirect
 } from "react-router-dom";
 import './App.css'
-import { Container } from 'react-bootstrap';
 
 class App extends Component {
   async componentDidMount(){
@@ -165,6 +166,9 @@ class App extends Component {
                   </Route>
                   <Route path="/Trending" component={Trending}>
                     <Trending />
+                  </Route>
+                  <Route path="/SignUp" component={SignUp}>
+                    <SignUp />
                   </Route>
                   <Route path="/OurTeam" component={OurTeam}>
                     <OurTeam />
