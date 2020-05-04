@@ -21,9 +21,6 @@ app.use(cors({ origin: true }));
 // API
 app.use('/api', apiRoute);
 
-// Main page
-app.use(express.static('frontend'));
-
 // PORT
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
