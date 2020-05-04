@@ -22,7 +22,7 @@ connection.query('CREATE TABLE IF NOT EXISTS `users` (`id` int(11) NOT NULL AUTO
 	+ '`profile_picture` text COLLATE utf8_unicode_ci,'
 	+ '`bio` longtext COLLATE utf8_unicode_ci,'
 	+ '`followed_users` json DEFAULT NULL,'
-	+ '	`following` int(11) DEFAULT NULL,'
+	+ '`following` int(11) DEFAULT NULL,'
 	+ '`followers` int(11) DEFAULT NULL,'
 	+ '`posts_id` json DEFAULT NULL,'
 	+ '`fav_posts_id` json DEFAULT NULL,'

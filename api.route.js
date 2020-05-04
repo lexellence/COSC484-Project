@@ -6,7 +6,7 @@ const db = require('./db');
 router.route('/register/:firstname/:lastname/:email/:password').post((req, res) => {
 	db.query('INSERT INTO users (firstname, lastname, email, password) '
 		+ 'VALUES ' + db.escape(req.params.firstname) + ', ' + db.escape(req.params.lastname) + ', '
-		+ db.escape(req.params.email) + db.escape(req.params.password),
+		+ db.escape(req.params.email) + ', ' + db.escape(req.params.password),
 		function (err, result) {
 			if (err) {
 				res.sendStatus(500);
