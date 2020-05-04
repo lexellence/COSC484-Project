@@ -1,12 +1,12 @@
 const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
-const dbConnection = require('./db');
+const db = require('./db');
 
 router.route('/register/:firstname/:lastname/:email/:password').post((req, res) => {
-	connection.query('INSERT INTO users (firstname, lastname, email, password) '
-		+ 'VALUES ' + connection.escape(req.params.firstname) + ', ' + connection.escape(req.params.lastname) + ', '
-		+ connection.escape(req.params.email) + connection.escape(req.params.password),
+	db.query('INSERT INTO users (firstname, lastname, email, password) '
+		+ 'VALUES ' + db.escape(req.params.firstname) + ', ' + db.escape(req.params.lastname) + ', '
+		+ db.escape(req.params.email) + db.escape(req.params.password),
 		function (err, result) {
 			if (err) {
 				res.sendStatus(500);
@@ -19,7 +19,7 @@ router.route('/register/:firstname/:lastname/:email/:password').post((req, res) 
 });
 
 router.route('/delete-account/:id').post((req, res) => {
-	connection.query("DELETE FROM users WHERE id = " + req.params.id, function (err, result) {
+	db.query("DELETE FROM users WHERE id = " + req.params.id, function (err, result) {
 		if (err) {
 			res.sendStatus(400);
 			throw "[mysql] ERROR - " + err;
@@ -28,7 +28,7 @@ router.route('/delete-account/:id').post((req, res) => {
 });
 
 router.route('/get-user-profile-list').get((req, res) => {
-	connection.query('SELECT * FROM users LIMIT 25', function (err, result) {
+	db.query('SELECT * FROM users LIMIT 25', function (err, result) {
 		if (err) { }
 
 		console.log("[mysql] Successfully retrieved data for user profile list!");
@@ -37,7 +37,7 @@ router.route('/get-user-profile-list').get((req, res) => {
 });
 
 router.route('/get-user-profile/:id').get((req, res) => {
-	connection.query('SELECT * FROM users WHERE id = ' + req.params.id, function (err, result) {
+	db.query('SELECT * FROM users WHERE id = ' + req.params.id, function (err, result) {
 		if (err) {
 			res.sendStatus(500);
 			throw "[mysql] ERROR - " + err;
@@ -50,16 +50,16 @@ router.route('/get-user-profile/:id').get((req, res) => {
 });
 
 router.route('/get-followed-users/:id').get((req, res) => {
-	connection.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
+	db.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
 		let temp = JSON.parse(result);
 		let insertValues = [];
-		temp.map(function (val) { insertValues.push('(' + connection.escape(val) + ')'); });
+		temp.map(function (val) { insertValues.push('(' + db.escape(val) + ')'); });
 
 		// Create a temp table to query against via INNER JOIN
-		connection.query('BEGIN;' +
+		db.query('BEGIN;' +
 			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
 			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
 			+ 'SELECT * FROM users u INNER JOIN temp_table t ON t.id = u.id;'
@@ -77,7 +77,7 @@ router.route('/get-followed-users/:id').get((req, res) => {
 });
 
 router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
-	connection.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
+	db.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
@@ -85,7 +85,7 @@ router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
 		temp.push(req.params.tofollow);
 		temp = JSON.stringify(temp);
 
-		connection.query('UPDATE users SET followed_users = ' + temp + ' WHERE id = ' + req.params.id, function (err, result) {
+		db.query('UPDATE users SET followed_users = ' + temp + ' WHERE id = ' + req.params.id, function (err, result) {
 			if (err) {
 				res.sendStatus(500);
 				throw "[mysql] ERROR - " + err;
@@ -100,10 +100,10 @@ router.route('/update-followed-users/:id/:tofollow').post((req, res) => {
 // obj should be stringified JSON
 // *** NO LONGER USING BIOMETRIC DATA ***
 router.route('/update-biometric-data/:id/:obj').post((req, res) => {
-	connection.query('SELECT biometric_data FROM user WHERE id = ' + req.params.id, function (err, result) {
+	db.query('SELECT biometric_data FROM user WHERE id = ' + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
-		connection.query('UPDATE user SET biometric_data = ' + req.params.obj + ' WHERE id = ' + req.params.id,
+		db.query('UPDATE user SET biometric_data = ' + req.params.obj + ' WHERE id = ' + req.params.id,
 			function (err, result) {
 				if (err) {
 					res.sendStatus(500);
@@ -116,7 +116,7 @@ router.route('/update-biometric-data/:id/:obj').post((req, res) => {
 });
 
 router.route('/get-trending/:num').get((req, res) => {
-	connection.query('SELECT * FROM posts LIMIT 25 ORDER BY total_views ASC', function (err, result) {
+	db.query('SELECT * FROM posts LIMIT 25 ORDER BY total_views ASC', function (err, result) {
 		if (err) {
 			res.sendStatus(500);
 			throw "[mysql] ERROR - " + err;
@@ -128,16 +128,16 @@ router.route('/get-trending/:num').get((req, res) => {
 });
 
 router.route('/get-favorites/:id').get((req, res) => {
-	connection.query('SELECT fav_posts_id FROM users WHERE id = ' + req.params.id, function (err, result) {
+	db.query('SELECT fav_posts_id FROM users WHERE id = ' + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
 		let temp = JSON.parse(result);
 		let insertValues = [];
-		temp.map(function (val) { insertValues.push('(' + connection.escape(val) + ')'); });
+		temp.map(function (val) { insertValues.push('(' + db.escape(val) + ')'); });
 
 		// Create a temp table to query against via INNER JOIN
-		connection.query('BEGIN;' +
+		db.query('BEGIN;' +
 			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
 			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
 			+ 'SELECT * FROM posts u INNER JOIN temp_table t ON t.id = u.id;'
@@ -154,14 +154,14 @@ router.route('/get-favorites/:id').get((req, res) => {
 });
 
 router.route('/add-favorite/:id/:id').post((req, res) => {
-	connection.query("SELECT fav_posts_id FROM users WHERE id = " + req.params.id, function (err, result) {
+	db.query("SELECT fav_posts_id FROM users WHERE id = " + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		let temp = JSON.parse(result);
 		temp.push(req.params.workoutid);
 		temp = JSON.stringify(temp);
 
-		connection.query(
+		db.query(
 			"UPDATE users SET fav_posts_id = " + temp + "WHERE id = " + id, function (err, result) {
 				if (err) {
 					res.sendStatus(404);
@@ -198,16 +198,16 @@ router.route('/add-favorite/:id/:id').post((req, res) => {
 
 router.route('/get-feed/:user_id/:max').get((req, res) => {
 
-	connection.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
+	db.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
 		let temp = JSON.parse(result);
 		let insertValues = [];
-		temp.map(function (val) { insertValues.push('(' + connection.escape(val) + ')'); });
+		temp.map(function (val) { insertValues.push('(' + db.escape(val) + ')'); });
 
 		// Create a temp table to query against via INNER JOIN
-		connection.query('BEGIN;' +
+		db.query('BEGIN;' +
 			+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
 			+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
 			+ 'SELECT * FROM users u INNER JOIN temp_table t ON t.id = u.id;'
@@ -220,9 +220,9 @@ router.route('/get-feed/:user_id/:max').get((req, res) => {
 
 				let followed = JSON.parse(result);
 				insertValues = [];
-				followed.map(function (val) { insertValues.push('(' + connection.escape(val) + ')'); });
+				followed.map(function (val) { insertValues.push('(' + db.escape(val) + ')'); });
 
-				connection.query('BEGIN;' +
+				db.query('BEGIN;' +
 					+ 'CREATE temp_table (id INT NOT NULL PRIMARY KEY);'
 					+ 'INSERT INTO temp_table(id) VALUES ' + insertValues.join(', ') + ';'
 					+ 'SELECT * FROM posts u INNER JOIN temp_table t ON t.id = u.id LIMIT ' + req.params.max + ';'
