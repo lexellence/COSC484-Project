@@ -178,21 +178,21 @@ router.route('/get-favorites/:id').get((req, res) => {
 	});
 });
 
-router.route('/add-favorite/:id/:id').post((req, res) => {
+router.route('/add-favorite/:id/:fav_post_id').post((req, res) => {
 	db.query("SELECT fav_posts_id FROM users WHERE id = " + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		let temp = JSON.parse(result);
-		temp.push(req.params.workoutid);
+		temp.push(req.params.fav_post_id);
 		temp = JSON.stringify(temp);
 
 		db.query(
-			"UPDATE users SET fav_posts_id = " + temp + "WHERE id = " + id, function (err, result) {
+			"UPDATE users SET fav_posts_id = " + temp + "WHERE id = " + req.params.fav_post_id, function (err, result) {
 				if (err) {
 					res.sendStatus(404);
 					throw "[mysql] ERROR - " + err;
 				}
-				console.log("[mysql] Added " + req.params.workoutid + " to favorites!");
+				console.log("[mysql] Added " + req.params.fav_post_id + " to favorites!");
 				res.status(200);
 			});
 	});
