@@ -31,7 +31,7 @@ class Footer extends Component {
           <div className="col-md-3 col-sm-6">
             <h4>Support</h4>
                 <ul className="list-unstyled">
-                <a href="/ContactSupport"> <li>Contact Support</li> </a>
+                <a href="/Support"> <li>Contact Support</li> </a>
                 <a href="/TermsOfService"> <li>Terms of Service</li> </a>
                 <a href="/Privacypolicy"> <li>Privacy Policy</li> </a>
                 </ul>

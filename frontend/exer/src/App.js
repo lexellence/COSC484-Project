@@ -7,7 +7,6 @@ import Profile from './components/Profile.js';
 import OurTeam from './components/OurTeam.js';
 import OurMission from './components/OurMission.js';
 import OurVision from './components/OurVision.js';
-import ContactSupport from './components/ContactSupport.js';
 import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy.js';
 import FaceBook from './components/FaceBook.js';
@@ -125,9 +124,6 @@ class App extends Component {
                   <Route path="/OurVision" component={OurVision}>
                     <OurVision />
                     </Route>
-                  <Route path="/ContactSupport" component={ContactSupport}>
-                    <ContactSupport />
-                  </Route>
                   <Route path="/TermsOfService" component={TermsOfService}>
                     <TermsOfService />
                   </Route>
@@ -178,9 +174,6 @@ class App extends Component {
                   </Route>
                   <Route path="/OurVision" component={OurVision}>
                     <OurVision />
-                  </Route>
-                  <Route path="/ContactSupport" component={ContactSupport}>
-                    <ContactSupport />
                   </Route>
                   <Route path="/TermsOfService" component={TermsOfService}>
                     <TermsOfService />

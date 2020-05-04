@@ -24,22 +24,22 @@ class Landing extends Component {
                               <Carousel.Item>
                                   <Image className="d-block w-100 h-25" src={FirstSlide} alt="First slide" rounded />
                                   <Carousel.Caption>
-                                      <h3>First slide label</h3>
-                                      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                      <h3>Share Your Passion For Fitness</h3>
+                                      <p></p>
                                   </Carousel.Caption>
                               </Carousel.Item>
                               <Carousel.Item>
                                   <Image className="d-block w-100" src={SecondSlide} alt="Second slide" rounded />
                                   <Carousel.Caption>
-                                      <h3>Second slide label</h3>
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                      <h3>Make Personal Connections</h3>
+                                      <p></p>
                                   </Carousel.Caption>
                               </Carousel.Item>
                               <Carousel.Item>
                                   <Image className="d-block w-100" src={ThirdSlide} alt="Third slide" rounded />
                                   <Carousel.Caption>
-                                      <h3>Third slide label</h3>
-                                      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                                      <h3>Stay Motivated</h3>
+                                      <p></p>
                                   </Carousel.Caption>
                               </Carousel.Item>
                           </Carousel>
