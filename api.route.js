@@ -138,6 +138,23 @@ router.route('/update-followed-users/:username/:tofollow').post((req, res) => {
 	});
 });
 
+router.route('/get-my-posts/:uid').get(requireAuth, (req, res) => {
+	const uid = req.params.uid;
+
+	db.query('SELECT user_id FROM posts WHERE user_id = ' + uid, function (err, result) {
+		if (err) throw "[mysql] ERROR - " + err;
+
+		if (err) {
+			res.sendStatus(500);
+			throw "[mysql] ERROR - " + err;
+		}
+
+		res.status(200);
+		console.log("[mysql] Got posts for user " + uid);
+
+	});
+});
+
 // Get :num top trending workouts
 router.route('/get-trending/:num').get((req, res) => {
 	db.query('SELECT * FROM posts LIMIT 25 ORDER BY total_views ASC', function (err, result) {
@@ -216,8 +233,6 @@ router.route('/add-workout/:user_id/:title/:body/:link').post((req, res) => {
 		res.status(200);		
 	});
 });
-
-
 
 router.route('/get-feed/:user_id/:max').get((req, res) => {
 
