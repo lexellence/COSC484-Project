@@ -3,10 +3,25 @@ const mysql = require('mysql');
 const router = express.Router();
 const db = require('./db');
 
-router.route('/register/:firstname/:lastname/:email/:password').post((req, res) => {
-	db.query('INSERT INTO users (firstname, lastname, email, password) '
+// myUsername: responds with { username: } object
+router.route('/myUsername'), (req, res) => {
+	const uid = req.uid;
+	if (!uid) {
+		res.sendStatus(401);
+		return;
+	}
+	db.query('SELECT username FROM users WHERE id = ?', [uid],
+		(error, results, fields) => {
+			if (results.length > 0)
+				res.status(200).json({ username: results[0].username });
+			next();
+		});
+};
+
+router.route('/register/:firstname/:lastname/:username/:email/:password').post((req, res) => {
+	db.query('INSERT INTO users (firstname, lastname, username, email, password) '
 		+ 'VALUES ' + db.escape(req.params.firstname) + ', ' + db.escape(req.params.lastname) + ', '
-		+ db.escape(req.params.email) + ', ' + db.escape(req.params.password),
+		+ db.escape(req.params.username) + ', ' + db.escape(req.params.email) + ', ' + db.escape(req.params.password),
 		function (err, result) {
 			if (err) {
 				res.sendStatus(500);
@@ -14,7 +29,7 @@ router.route('/register/:firstname/:lastname/:email/:password').post((req, res) 
 			}
 
 			console.log("[mysql] Successfully added user!");
-			res.status(201);
+			res.sendStatus(201);
 		});
 });
 
