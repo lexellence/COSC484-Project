@@ -27,7 +27,7 @@ connection.query('CREATE TABLE IF NOT EXISTS `users` (`id` int(11) NOT NULL AUTO
 	+ '`posts_id` json DEFAULT NULL,'
 	+ '`fav_posts_id` json DEFAULT NULL,'
 	+ '`session_token` varchar(50) DEFAULT NULL,'
-	+ 'PRIMARY KEY (`id`)'
+	+ 'PRIMARY KEY (`id`, `username`)'
 	+ ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;',
 	function (err, result) {
 		if (err) throw err;
