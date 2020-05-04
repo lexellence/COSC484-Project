@@ -12,7 +12,9 @@ class OurMission extends Component {
           <p className="ourmission-subtitle">
           <img height="200" width="280" src={OurMissionPicture}></img>
           <div className="mt-4">
-            EXER's founders have a passion for fitness. Our goal in creating this site is to allow users to share their common interests and empower one another in maintaining a healthy lifestyle.
+            <p className="ourmission-subtitle">
+            EXER's founders have a passion for fitness. Their goal in creating this site is to allow users to share their common interests and empower one another in maintaining a healthy lifestyle.
+            </p>
             <br></br>
           </div>
           </p>

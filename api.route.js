@@ -8,39 +8,6 @@ router.route('/how-is-today').get((req, res, next) => {
 	res.send('great');
 });
 
-//MySQL connection
-/*var con = mysql.createConnection({
-    host: "host",
-    user: "user",
-    password: "password",
-    database: "database"
-  });
-*/
-
-//Endpoints for front end
-router.route('/add_workout').post((req, res) => {
-	var workoutObject = req.body;
-	/* Example workout structure
-		var workout = {
-			title: "title of workout",
-			desc: "basic description of workout",
-			url: "url link to video of workout"
-		}	
-	*/
-	res.status(200);
-	return;
-});
-
-router.route('/workouts').get((req, res) => {
-	res.status(200).send('Workouts Page');
-	return;
-});
-
-router.route('/workouts/trending').get((req, res) => {
-	res.status(200).send('Trending Workouts');
-	return;
-});
-
 // Fake data for stubs
 const userProfile1 = {
 	id: 123,
@@ -89,7 +56,7 @@ const workout2 = {
 };
 const workouts = [workout1, workout2];
 
-router.route('/register').post((req, res) => {
+router.route('/register/:firstname/:lastname/:password').post((req, res) => {
 	connection.query('INSERT INTO users (firstname, lastname, password) '
 	+ 'VALUES ' + connection.escape(req.params.firstname) + ', ' + connection.escape(req.params.lastname) + ', ' 
 	+ connection.escape(req.params.password), 
@@ -103,6 +70,15 @@ router.route('/register').post((req, res) => {
 
 		res.status(201)
 	})
+});
+
+router.route('/delete-account/:id').post((req, res) => {
+	connection.query("DELETE FROM user WHERE id = " + req.params.id, function (err, result) {
+		if (err){ 
+		res.sendStatus(400);
+		throw "[mysql] ERROR - " + err;
+		}else res.sendStatus(201);// 201 = created
+	  });
 });
 
 router.route('/get-user-profile-list').get((req, res) => {
@@ -233,6 +209,49 @@ router.route('/get-favorites/:id').get((req, res) => {
 			}
 		)
 	})
+});
+
+router.route('/add-favorite/:id/:workoutid').post((req, res) => {
+	connection.query("SELECT favorites FROM user WHERE id = " + req.params.id, function (err, result) {
+		if (err) throw "[mysql] ERROR - " + err;
+	  
+		let temp = JSON.parse(result);
+		temp.push(req.params.workoutid);
+		temp = JSON.stringify(temp);
+	  
+		connection.query(
+		  "UPDATE user SET favorites = " + temp + "WHERE id = " + id,function (err, result) {
+			if(err){
+				res.sendStatus(404);
+				throw "[mysql] ERROR - " + err;
+			}
+			console.log("[mysql] Added " + req.params.workoutid + " to favorites!")
+			res.status(200)
+		})
+	  });
+});
+
+router.route('/add_workout').post((req, res) => {
+	var workoutObject = req.body;
+	/* Example workout structure
+		var workout = {
+			title: "title of workout",
+			desc: "basic description of workout",
+			url: "url link to video of workout"
+		}	
+	*/
+	res.status(200);
+	return;
+});
+
+router.route('/workouts').get((req, res) => {
+	res.status(200).send('Workouts Page');
+	return;
+});
+
+router.route('/workouts/trending').get((req, res) => {
+	res.status(200).send('Trending Workouts');
+	return;
 });
 
 //+------------------------\----------------------------------
