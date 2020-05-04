@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const router = express.Router();
 const db = require('./db');
 
+// Middleware that rejects request with a 401 if they aren't logged in
 function requireAuth(req, res, next) {
 	if (!req.uid) {
 		res.sendStatus(401);
@@ -11,29 +12,50 @@ function requireAuth(req, res, next) {
 	next();
 }
 
-// myUsername: responds with { username: } object, or status 401 if not authenticated
+// myUsername: responds with { username: } object, or 
+//		status 401 if not authenticated
 router.route('/myUsername'), requireAuth, (req, res) => {
 	const uid = req.uid;
 	db.query('SELECT username FROM users WHERE id = ?', [uid],
 		(error, results, fields) => {
 			if (results.length > 0)
-				res.status(200).json({ username: results[0].username });
+				res.status(401).json({ username: results[0].username });
 			next();
 		});
 };
 
+// register: responds with status 
+//		403 if username taken, 
+//		500 on server error, or 
+//		201 on successful user creation
 router.route('/register/:firstname/:lastname/:username/:email/:password').post((req, res) => {
-	db.query('INSERT INTO users (firstname, lastname, username, email, password) '
-		+ 'VALUES (' + db.escape(req.params.firstname) + ', ' + db.escape(req.params.lastname) + ', '
-		+ db.escape(req.params.username) + ', ' + db.escape(req.params.email) + ', ' + db.escape(req.params.password) + ')',
-		function (err, result) {
-			if (err) {
+	// Is the username taken?
+	let usernameQuery = db.query('SELECT username FROM users WHERE username = ?', [req.params.username],
+		(error, results, fields) => {
+			if (error) {
 				res.sendStatus(500);
-				throw "[mysql] ERROR - " + err;
+				return;
 			}
 
-			console.log("[mysql] Successfully added user!");
-			res.sendStatus(201);
+			// If username taken, respond with error
+			if (results.length > 0) {
+				res.status(403).send('Username is already taken');
+				return;
+			}
+
+			// Otherwise create new user
+			db.query('INSERT INTO users (firstname, lastname, username, email, password) '
+				+ 'VALUES (' + db.escape(req.params.firstname) + ', ' + db.escape(req.params.lastname) + ', '
+				+ db.escape(req.params.username) + ', ' + db.escape(req.params.email) + ', ' + db.escape(req.params.password) + ')',
+				function (err, result) {
+					if (err) {
+						res.sendStatus(500);
+						throw "[mysql] ERROR - " + err;
+					}
+
+					console.log("[mysql] Successfully added user!");
+					res.sendStatus(201);
+				});
 		});
 });
 
