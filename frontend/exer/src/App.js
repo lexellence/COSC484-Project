@@ -6,6 +6,7 @@ import Support from './components/Support.js';
 import Profile from './components/Profile.js';
 import OurTeam from './components/OurTeam.js';
 import OurMission from './components/OurMission.js';
+import OurVision from './components/OurVision.js'
 import Trending from './components/Trending.js';
 import Feed from './components/Feed.js';
 import Footer from './components/Footer.js';
@@ -115,6 +116,9 @@ class App extends Component {
                   <Route path="/OurMission" component={OurMission}>
                     <OurMission />
                   </Route>
+                  <Route path="/OurVision" component={OurVision}>
+                    <OurVision />
+                  </Route>
                 </Switch>
               </div>
             </Router>
@@ -147,6 +151,9 @@ class App extends Component {
                   </Route>
                   <Route path="/OurMission" component={OurMission}>
                     <OurMission />
+                  </Route>
+                  <Route path="/OurVision" component={OurVision}>
+                    <OurVision />
                   </Route>
                 </Switch>
               </div>
