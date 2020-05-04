@@ -13,7 +13,12 @@ class PrivacyPolicy extends Component {
           <img height="200" width="280" src={Privacy}></img>
           <div className="mt-4">
             <p className="privacypolicy-subtitle">
-            
+            <a href="https://www.websitepolicies.com/blog/sample-terms-service-template">Click to view Privacy Policy generic template</a>
+            <br></br>
+            Privacy Policy
+            <br></br>
+            Before you continue using our website we advise you to read our privacy policy [link to privacy policy] regarding our user data collection. It will help you better understand our practices.
+
             </p>
             <br></br>
           </div>
