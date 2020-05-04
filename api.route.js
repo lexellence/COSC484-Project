@@ -51,14 +51,20 @@ router.route('/get-user-profile-list').get((req, res) => {
 	});
 });
 
-router.route('/get-user-profile/:id').get((req, res) => {
-	db.query('SELECT * FROM users WHERE id = ' + req.params.id, function (err, result) {
+router.route('/get-profile').get((req, res) => {
+	const uid = req.uid;
+	if (!uid) {
+		res.sendStatus(401);
+		return;
+	}
+	const profileFields = 'firstname, lastname, username, email, profile_picture, bio';
+	db.query('SELECT ' + profileFields + ' FROM users WHERE id = ' + uid, function (err, result) {
 		if (err) {
 			res.sendStatus(500);
 			throw "[mysql] ERROR - " + err;
 		}
 
-		console.log("[mysql] Successfully retrieved data for " + req.params.id);
+		console.log("[mysql] Successfully retrieved data for " + uid);
 
 		res.status(200).json(result);
 	});
