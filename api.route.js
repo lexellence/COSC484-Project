@@ -189,7 +189,7 @@ router.route('/add-favorite/:id/:fav_post_id').post((req, res) => {
 		db.query(
 			"UPDATE users SET fav_posts_id = " + temp + "WHERE id = " + req.params.fav_post_id, function (err, result) {
 				if (err) {
-					res.sendStatus(404);
+					res.sendStatus(500);
 					throw "[mysql] ERROR - " + err;
 				}
 				console.log("[mysql] Added " + req.params.fav_post_id + " to favorites!");
@@ -198,28 +198,27 @@ router.route('/add-favorite/:id/:fav_post_id').post((req, res) => {
 	});
 });
 
-// router.route('/add_post').post((req, res) => {
-// 	var workoutObject = req.body;
-// 	/* Example workout structure
-// 		var workout = {
-// 			title: "title of workout",
-// 			desc: "basic description of workout",
-// 			url: "url link to video of workout"
-// 		}	
-// 	*/
-// 	res.status(200);
-// 	return;
-// });
+router.route('/add-workout/:user_id/:title/:body/:link').post((req, res) => {
+	const uid = req.params.user_id
+	const title = req.params.title
+	const body = req.params.body
+	const link = req.params.link
 
-// router.route('/posts').get((req, res) => {
-// 	res.status(200).send('Feed');
-// 	return;
-// });
+	let temp = [uid, title, body, link]
+	let insertValues = [];
+	temp.map(function (val) { insertValues.push(db.escape(val)) });
 
-// router.route('/posts/trending').get((req, res) => {
-// 	res.status(200).send('Trending Workouts');
-// 	return;
-// });
+	db.query("INSERT INTO posts(user_id, title, body, link) VALUES(" + insertValues.join(', ') + ")" , function (err, result) {
+		if (err) {
+			res.sendStatus(500);
+			throw "[mysql] ERROR - " + err;
+		}
+		console.log("[mysql] Added " + title + " to workouts!");
+		res.status(200);		
+	});
+});
+
+
 
 router.route('/get-feed/:user_id/:max').get((req, res) => {
 
