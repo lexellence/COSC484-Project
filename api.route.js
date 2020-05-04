@@ -36,7 +36,7 @@ router.route('/register/:firstname/:lastname/:username/:email/:password').post((
 		});
 });
 
-router.route('/delete-account/:id').post((req, res) => {
+router.route('/delete-my-account').post(requireAuth, (req, res) => {
 	db.query("DELETE FROM users WHERE id = " + req.params.id, function (err, result) {
 		if (err) {
 			res.sendStatus(400);
@@ -45,16 +45,8 @@ router.route('/delete-account/:id').post((req, res) => {
 	});
 });
 
-router.route('/get-user-profile-list').get((req, res) => {
-	db.query('SELECT * FROM users LIMIT 25', function (err, result) {
-		if (err) { }
-
-		console.log("[mysql] Successfully retrieved data for user profile list!");
-		res.status(200).json(result);
-	});
-});
-
-const PROFILE_FIELDS = 'firstname, lastname, username, email, profile_picture, bio';
+const PROFILE_FIELDS = 'firstname, lastname, username, profile_picture, bio';
+// Get [{ PROFILE_FIELDS }, ...]
 router.route('/get-profile-list').get((req, res) => {
 	db.query('SELECT ' + PROFILE_FIELDS + ' FROM users LIMIT 25', function (err, result) {
 		if (err) { }
@@ -66,13 +58,14 @@ router.route('/get-profile-list').get((req, res) => {
 
 // Get { PROFILE_FIELDS } from :username
 router.route('/get-profile/:username').get(requireAuth, (req, res) => {
-	db.query('SELECT ' + PROFILE_FIELDS + ' FROM users WHERE username = ' + req.params.username, function (err, result) {
+	const username = req.params.username;
+	db.query('SELECT ' + PROFILE_FIELDS + ' FROM users WHERE username = ' + username, function (err, result) {
 		if (err) {
 			res.sendStatus(500);
 			throw "[mysql] ERROR - " + err;
 		}
 
-		console.log("[mysql] Successfully retrieved data for " + req.params.id);
+		console.log("[mysql] Successfully retrieved data for " + username);
 
 		res.status(200).json(result);
 	});
@@ -80,10 +73,6 @@ router.route('/get-profile/:username').get(requireAuth, (req, res) => {
 // Get { PROFILE_FIELDS } for logged in user
 router.route('/get-my-profile').get(requireAuth, (req, res) => {
 	const uid = req.uid;
-	if (!uid) {
-		res.sendStatus(401);
-		return;
-	}
 	db.query('SELECT ' + PROFILE_FIELDS + ' FROM users WHERE id = ' + uid, function (err, result) {
 		if (err) {
 			res.sendStatus(500);
