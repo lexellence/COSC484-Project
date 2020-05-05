@@ -112,7 +112,8 @@ router.route('/get-my-profile').get(requireAuth, (req, res) => {
 
 router.route('/get-followed-users/:username').get(requireAuth, (req, res) => {
 	const username = req.params.username;
-	db.query('SELECT followed_users FROM users WHERE username = ' + username, function (err, result) {
+	const uid = req.uid;
+	db.query('SELECT followed_users FROM users WHERE id = ' + uid, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
@@ -138,9 +139,10 @@ router.route('/get-followed-users/:username').get(requireAuth, (req, res) => {
 	});
 });
 
-router.route('/update-followed-users/:username/:tofollow').post((req, res) => {
-	const username = req.params.username;
-	db.query('SELECT followed_users FROM users WHERE username = ' + username, function (err, result) {
+router.route('/update-followed-users/:username/:tofollow').post(requireAuth, (req, res) => {
+	const uid = req.uid;
+
+	db.query('SELECT followed_users FROM users WHERE id = ' + uid, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
@@ -148,7 +150,7 @@ router.route('/update-followed-users/:username/:tofollow').post((req, res) => {
 		temp.push(req.params.tofollow);
 		temp = JSON.stringify(temp);
 
-		db.query('UPDATE users SET followed_users = ' + temp + ' WHERE username = ' + username, function (err, result) {
+		db.query('UPDATE users SET followed_users = ' + temp + ' WHERE id = ' + uid, function (err, result) {
 			if (err) {
 				res.sendStatus(500);
 				throw "[mysql] ERROR - " + err;
@@ -160,8 +162,8 @@ router.route('/update-followed-users/:username/:tofollow').post((req, res) => {
 	});
 });
 
-router.route('/get-my-posts/:uid').get(requireAuth, (req, res) => {
-	const uid = req.params.uid;
+router.route('/get-my-posts').get(requireAuth, (req, res) => {
+	const uid = req.uid;
 
 	db.query('SELECT user_id FROM posts WHERE user_id = ' + uid, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
@@ -190,7 +192,8 @@ router.route('/get-trending/:num').get((req, res) => {
 	});
 });
 
-router.route('/get-favorites/:id').get((req, res) => {
+router.route('/get-favorites').get(requireAuth, (req, res) => {
+	const uid = req.uid;
 	db.query('SELECT fav_posts_id FROM users WHERE id = ' + req.params.id, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
@@ -216,8 +219,10 @@ router.route('/get-favorites/:id').get((req, res) => {
 	});
 });
 
-router.route('/add-favorite/:id/:fav_post_id').post((req, res) => {
-	db.query("SELECT fav_posts_id FROM users WHERE id = " + req.params.id, function (err, result) {
+router.route('/add-favorite/:id/:fav_post_id').post(requireAuth, (req, res) => {
+	const uid = req.uid
+
+	db.query("SELECT fav_posts_id FROM users WHERE id = " + uid, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		let temp = JSON.parse(result);
@@ -236,8 +241,8 @@ router.route('/add-favorite/:id/:fav_post_id').post((req, res) => {
 	});
 });
 
-router.route('/add-workout/:user_id/:title/:body/:link').post((req, res) => {
-	const uid = req.params.user_id
+router.route('/add-workout/:title/:body/:link').post(requireAuth, (req, res) => {
+	const uid = req.uid
 	const title = req.params.title
 	const body = req.params.body
 	const link = req.params.link
@@ -256,9 +261,10 @@ router.route('/add-workout/:user_id/:title/:body/:link').post((req, res) => {
 	});
 });
 
-router.route('/get-feed/:user_id/:max').get((req, res) => {
+router.route('/get-feed/:user_id/:max').get(requireAuth, (req, res) => {
+	const uid = req.uid
 
-	db.query('SELECT followed_users FROM users WHERE id = ' + req.params.id, function (err, result) {
+	db.query('SELECT followed_users FROM users WHERE id = ' + uid, function (err, result) {
 		if (err) throw "[mysql] ERROR - " + err;
 
 		//TODO: Add a check for if the result contains values
