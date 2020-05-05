@@ -15,8 +15,8 @@ const apiRoute = require('./api.route');
 // client.auth(redisURL.auth.split(":")[1]);
 
 // Express
-const TWO_HOURS = 1000 * 60 * 60 * 2;
-const { PORT = 5000, SESS_LIFETIME = TWO_HOURS };
+// const TWO_HOURS = 1000 * 60 * 60 * 2;
+// const { PORT = 5000, SESS_LIFETIME = TWO_HOURS };
 const app = express();
 
 // Helmet protects from attacks
@@ -32,8 +32,8 @@ app.use(cors({ origin: true }));
 // Enable sessions
 app.use(session({
 	secret: 'exerfit_secret_code_f7gh7g8fdhg',
-	resave: false,
-	saveUninitialized: false//,
+	resave: true,
+	saveUninitialized: true//,
 	// cookie:
 }));
 
