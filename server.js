@@ -8,33 +8,39 @@ const session = require('express-session');
 const db = require('./db');
 const apiRoute = require('./api.route');
 
+var url = require('url');
+const redis = require('redis');
+const redisURL = url.parse(process.env.REDISCLOUD_URL);
+const client = redis.createClient(redisURL.port, redisURL.hostname, { no_ready_check: true });
+client.auth(redisURL.auth.split(":")[1]);
+
 // Express
 const app = express();
 
 // Helmet protects from attacks
 app.use(helmet());
 
-// Enable sessions
-app.use(session({
-	secret: 'exerfit_secret_code_f7gh7g8fdhg',
-	resave: true,
-	saveUninitialized: true
-}));
-
 // Body-parser sets req.body
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-// Testing Heroku deployment
-if (process.env.NODE_ENV === 'production'){
-	app.use(express.static('frontend/exer/build'));
-	app.get('*', (req, res) => {
-		res.sendFile(path.join(__dirname, 'frontend', 'exer', 'build', 'index.html')); // relative path
-	});
-}
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
+
+// Enable sessions
+app.use(session({
+	secret: 'exerfit_secret_code_f7gh7g8fdhg',
+	resave: false,
+	saveUninitialized: false
+}));
+
+// Heroku deployment
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('frontend/exer/build'));
+	app.get('/', (req, res) => {
+		res.sendFile(path.join(__dirname, 'frontend', 'exer', 'build', 'index.html')); // relative path
+	});
+}
 
 // Login: send { username: string, password: string }
 // 		Status 500 on db error
