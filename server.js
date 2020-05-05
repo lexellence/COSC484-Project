@@ -8,11 +8,11 @@ const session = require('express-session');
 const db = require('./db');
 const apiRoute = require('./api.route');
 
-var url = require('url');
-const redis = require('redis');
-const redisURL = url.parse(process.env.REDISCLOUD_URL);
-const client = redis.createClient(redisURL.port, redisURL.hostname, { no_ready_check: true });
-client.auth(redisURL.auth.split(":")[1]);
+// var url = require('url');
+// const redis = require('redis');
+// const redisURL = url.parse(process.env.REDISCLOUD_URL);
+// const client = redis.createClient(redisURL.port, redisURL.hostname, { no_ready_check: true });
+// client.auth(redisURL.auth.split(":")[1]);
 
 // Express
 const app = express();
