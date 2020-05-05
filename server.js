@@ -22,8 +22,16 @@ app.use(session({
 }));
 
 // Body-parser sets req.body
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Testing Heroku deployment
+if (process.env.NODE_ENV === 'production'){
+	app.use(express.static('frontend/exer/build'));
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname, 'frontend', 'exer', 'build', 'index.html')); // relative path
+	});
+}
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
