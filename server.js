@@ -15,6 +15,8 @@ const apiRoute = require('./api.route');
 // client.auth(redisURL.auth.split(":")[1]);
 
 // Express
+const TWO_HOURS = 1000 * 60 * 60 * 2;
+const { PORT = 5000, SESS_LIFETIME = TWO_HOURS };
 const app = express();
 
 // Helmet protects from attacks
@@ -31,13 +33,14 @@ app.use(cors({ origin: true }));
 app.use(session({
 	secret: 'exerfit_secret_code_f7gh7g8fdhg',
 	resave: false,
-	saveUninitialized: false
+	saveUninitialized: false//,
+	// cookie:
 }));
 
 // Heroku deployment
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('frontend/exer/build'));
-	app.get('/', (req, res) => {
+	app.get('*', (req, res) => {
 		res.sendFile(path.join(__dirname, 'frontend', 'exer', 'build', 'index.html')); // relative path
 	});
 }
