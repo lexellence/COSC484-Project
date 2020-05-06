@@ -35,8 +35,12 @@ nav {
   font-family: default;
 }
 
-nav a {
+.dark-mode nav a {
 	color: white !important;
+}
+
+.light-mode nav a {
+	color: #333 !important;
 }
 
 .toggle {

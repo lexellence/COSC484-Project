@@ -98,9 +98,9 @@ class App extends Component {
 				return (
 					<div>
 						<Router>
-							<Route exact path="/" render={() => (
+							{/* <Route exact path="/" render={() => (
 								<Redirect to="/Profile" />
-							)} />
+							)} /> */}
 							<div>
 								<Nav />
 								<Switch>

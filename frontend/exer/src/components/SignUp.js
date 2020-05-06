@@ -7,6 +7,37 @@ import Col from 'react-bootstrap/Col';
 import '../App.css';
 
 class SignUp extends Component {
+    constructor(props) {
+		super(props);
+		this.state = {
+			username: '',
+            password: '',
+            username: '',
+            email: '',
+            password: '',
+		};
+    }
+    
+    async register() {
+		try {
+			let res = await fetch('/register', {
+				method: 'post',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+                    firstname: this.state.firstname,
+                    lastname: this.state.lastname,
+                    username: this.state.username,
+                    email: this.state.email,
+					password: this.state.password
+				})
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	}
     render() {
         return (
             <div>
@@ -66,7 +97,7 @@ class SignUp extends Component {
                                     required />
                             </Form.Group>
 
-                            <Button variant="success" type="submit">Register</Button>
+                            <Button variant="success" type="submit" onClick={() => this.register()}>Register</Button>
                         </Form>
                     </Row>
                 </Container>

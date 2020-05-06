@@ -17,38 +17,7 @@ class SignIn extends Component {
 		};
 	}
 
-	setInputValue(property, value) {
-		value = value.trim();
-
-		if (value.length > 12) {
-			return;
-		}
-
-		this.setState({
-			[property]: value
-		});
-	}
-
-	resetForm() {
-		this.setState({
-			username: '',
-			password: '',
-			buttonDisabled: false
-		});
-	}
-
 	async doLogin() {
-		if (!this.state.username) {
-			return;
-		}
-		if (!this.state.password) {
-			return;
-		}
-
-		this.setState({
-			buttonDisabled: true
-		});
-
 		try {
 			let res = await fetch('/login', {
 				method: 'post',
@@ -56,27 +25,18 @@ class SignIn extends Component {
 					'Accept': 'application/json',
 					'Content-Type': 'application/json'
 				},
-				body: {
+				body: JSON.stringify({
 					username: this.state.username,
 					password: this.state.password
-				}
+				})
 			});
-
-			let result = await res.json();
-			if (result && result.success) {
-				UserStore.isLoggedIn = true;
-				UserStore.username = result.username;
-			} else if (result && result.success === false) {
-				this.resetForm();
-				alert(result.msg);
-			}
 		} catch (e) {
 			console.log(e);
-			this.resetForm();
 		}
 	}
 
 	render() {
+		const {username, password} = this.state;
 		return (
 			<div>
 				<Container>
@@ -93,8 +53,6 @@ class SignIn extends Component {
 											name="username"
 											type="text"
 											placeholder="Username"
-											value={this.state.username ? this.state.username : ''}
-											onChange={(value) => this.setInputValue('username', value)}
 											required />
 									</Form.Group>
 
@@ -104,8 +62,6 @@ class SignIn extends Component {
 											name="password"
 											type="password"
 											placeholder="Password"
-											value={this.state.password ? this.state.password : ''}
-											onChange={(value) => this.setInputValue('password', value)}
 											required />
 									</Form.Group>
 									<div className="ml-3">
